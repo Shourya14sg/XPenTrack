@@ -14,7 +14,9 @@
   }
 
 @layer base{
-
+  /*html{
+    @apply bg-green-100 text-black /*dark:bg-black dark:text-white
+  }*/
     .heading{ 
         @apply mb-2 text-xl font-bold sm:text-2xl md:text-3xl ;
     }
