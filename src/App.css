@@ -1,42 +1,31 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+@import "tailwindcss";
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@theme {
+    --color-primary-50: #eff6ff;
+    --color-primary-100: #dbeafe;
+    --color-primary-200: #bfdbfe;
+    --color-primary-300: #93c5fd;
+    --color-primary-400: #60a5fa;
+    --color-primary-500: #3b82f6;
+    --color-primary-600: #2563eb;
+    --color-primary-700: #1d4ed8;
+    --color-primary-800: #1e40af;
+    --color-primary-900: #1e3a8a;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
+@layer base{
 
-.card {
-  padding: 2em;
+    .heading{ 
+        @apply mb-2 text-xl font-bold sm:text-2xl md:text-3xl ;
+    }
+    button{
+        @apply rounded-lg px-3 py-2 w-[200px]
+    }
+    .anchor{
+        @apply text-blue-600  hover:text-purple-600 hover:underline hover:decoration-dashed underline-offset-1 
+    }
+    .btn-primary{
+        @apply bg-blue-500 text-white
+    }
 }
-
-.read-the-docs {
-  color: #888;
-}
+/*  max-width: 1280px;*/
