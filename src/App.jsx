@@ -17,7 +17,7 @@ function App() {
     } else {
       setIsLoggedIn(false);
     }
-  }, []);
+  }, []); 
 
   const ProtectedRoute = ({ element }) => {
     return isLoggedIn ? element : <Navigate to="/login" replace />;

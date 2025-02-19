@@ -77,10 +77,10 @@ const Signup = () => {
   return (
     <div 
       className='min-h-screen w-screen flex justify-center items-center p-4'
-      style={{ backgroundImage: "conic-gradient(from 45deg, #C5BAFF, #C4D9FF, #E8F9FF, #C5BAFF)" }}
+      style={{ backgroundColor: "#615fff" }}
     >
       <Card className='w-full max-w-lg shadow-2xl flex flex-col space-y-4 py-5 px-16'>
-        <Typography variant='h6' component="div">👍FinMan</Typography>
+        <Typography variant='h6' component="div">XPenTrack</Typography>
         <Typography variant='h4' component="div">Sign Up</Typography>
         
         {error && <Alert severity="error">{error}</Alert>}
@@ -88,12 +88,11 @@ const Signup = () => {
         
         <form onSubmit={handleSubmit}>
           <FormControl sx={{ marginY: "0.3rem" }} className="w-full">
-            <FormLabel htmlFor="name">Full Name</FormLabel>
             <TextField
               id="name"
               type="text"
+              label="Full Name"
               name="name"
-              placeholder="Enter your name"
               value={formData.name}
               onChange={handleChange}
               required
@@ -103,12 +102,11 @@ const Signup = () => {
           </FormControl>
 
           <FormControl sx={{ marginY: "0.3rem" }} className="w-full">
-            <FormLabel htmlFor="email">Email</FormLabel>
             <TextField
               id="email"
+              label="Email"
               type="email"
               name="email"
-              placeholder="your@email.com"
               value={formData.email}
               onChange={handleChange}
               required
@@ -118,12 +116,11 @@ const Signup = () => {
           </FormControl>
 
           <FormControl sx={{ marginY: "0.3rem" }} className="w-full">
-            <FormLabel htmlFor="phone">Phone No.</FormLabel>
             <TextField
               id="phone"
+              label="Phone No."
               type="tel"
               name="phone"
-              placeholder="Phone Number"
               value={formData.phone}
               onChange={handleChange}
               required
@@ -133,12 +130,11 @@ const Signup = () => {
           </FormControl>
 
           <FormControl sx={{ marginY: "0.3rem" }} className="w-full">
-            <FormLabel htmlFor="password">Create Password</FormLabel>
             <TextField
               id="password"
+              label="Create Password"
               type="password"
               name="password"
-              placeholder="New Password"
               value={formData.password}
               onChange={handleChange}
               required
@@ -148,12 +144,11 @@ const Signup = () => {
           </FormControl>
 
           <FormControl sx={{ marginY: "0.3rem" }} className="w-full">
-            <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
             <TextField
               id="confirmPassword"
+              label="Confirm Password"
               type="password"
               name="confirmPassword"
-              placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
               required
@@ -166,7 +161,7 @@ const Signup = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ color: "white", backgroundColor: "#262424", marginTop: "0.2rem" }}
+            sx={{ width:"10rem", color: "#615fff", boxShadow:"none", backgroundColor:"white", border:"1px solid #615fff", ":hover":{backgroundColor:"#615fff", color:"white", border:"1px solid transparent"}, marginTop: "0.2rem" }}
           >
             Sign Up
           </Button>

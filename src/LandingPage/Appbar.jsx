@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 const Appbar = () => {
     return (
         <>
-            <AppBar className='bg-indigo-600 w-full'>
-                <Toolbar className='bg-indigo-600 flex flex-row justify-between'>
+            <AppBar className='bg-indigo-500 w-full'>
+                <Toolbar className='bg-indigo-500 flex flex-row justify-between'>
                     <Typography variant="h5" component="div">
-                        FinMan
+                        XPenTrack
                     </Typography>
                     <div className='flex w-2xl justify-evenly'>
                         <h4>Home</h4>

@@ -38,20 +38,19 @@ const Login = () => {
     return (
         <div 
             className='min-h-screen w-screen flex justify-center items-center p-4'
-            style={{ backgroundImage: "conic-gradient(from 45deg, #C5BAFF, #C4D9FF, #E8F9FF, #C5BAFF)" }}
+            style={{ backgroundColor:"#615fff" }}
         >
-            <Card className='w-full max-w-sm sm:max-w-md md:max-w-lg p-6 sm:p-8 shadow-2xl flex flex-col gap-4'>
-                <Typography variant='h6' component="div" className="text-center">👍FinMan</Typography>
+            <Card className='w-full max-w-sm sm:max-w-md md:max-w-lg px-12 sm:p-20 shadow-2xl flex flex-col items-center gap-4'>
+                <Typography variant='h6' component="div" className="text-center">XPenTrack</Typography>
                 <Typography variant='h4' component="div" className="text-center">Sign In</Typography>
                 {error && <Alert severity="error">{error}</Alert>}
                 <Box component="form" onSubmit={handleSubmit} noValidate>
                     <FormControl sx={{ marginBottom: "0.8rem" }} className="w-full">
-                        <FormLabel htmlFor="email">Email</FormLabel>
                         <TextField
+                            label="Email"
                             id="email"
                             type="email"
                             name="email"
-                            placeholder="your@email.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -61,12 +60,11 @@ const Login = () => {
                     </FormControl>
 
                     <FormControl sx={{ marginBottom: "0.8rem" }} className="w-full">
-                        <FormLabel htmlFor="password">Password</FormLabel>
                         <TextField
                             id="password"
+                            label="Password"
                             type="password"
                             name="password"
-                            placeholder="Your Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
@@ -79,7 +77,7 @@ const Login = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ marginBottom: "0.8rem", color: "white", backgroundColor: "#262424", "&:hover": { backgroundColor: "#1f1f1f" } }}
+                        sx={{ width:"10rem", alignSelf:"center", color: "#615fff", boxShadow:"none", backgroundColor:"white", border:"1px solid #615fff", ":hover":{backgroundColor:"#615fff", color:"white", border:"1px solid transparent"}, marginTop: "0.2rem" }}
                     >
                         Sign in
                     </Button>
