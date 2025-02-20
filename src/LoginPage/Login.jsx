@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Card, FormControl, FormLabel, TextField, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { domain } from '../Constants/Constants';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ const Login = () => {
         setError('');
         
         try {
-            const response = await fetch(`http://127.0.0.1:8000/users/login/`, {
+            const response = await fetch(`${domain}/users/login/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

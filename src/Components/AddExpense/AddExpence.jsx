@@ -37,12 +37,11 @@ export const AddExpence = ({ open, setOpen }) => {
     const updatedExpense={
         ...expense,
         owner:userId,
-        ...(group !== null && { type:"shared" })
+        ...(group !== null && { type:"group" })
     }
     console.log("Submitted:", updatedExpense);
     try {
         await axios.post(`${domain}/exp/expense/expenses/`, updatedExpense,{
-            
             headers: {
               Authorization: `Bearer ${accessToken}`,
               'Content-Type': 'application/json', // Ensure correct content type
@@ -124,7 +123,7 @@ export const AddExpence = ({ open, setOpen }) => {
                 onClick={()=>setGroupDialogOpen(true)}>
               <AddCircleOutlineIcon  color="primary"  />
             <span >Add Group</span>
-            {group && <span className="text-sm text-gray-500 ml-2">({group.groupName})</span>}
+            {group && <span className="text-sm text-gray-500 ml-2">({group.group_name})</span>}
           </div>
         </div>
       </DialogContent>
