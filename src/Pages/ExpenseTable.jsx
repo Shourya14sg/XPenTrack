@@ -134,7 +134,7 @@ const [rows, setRows] = useState([]); // Store data in state
     { field: "type", headerName: "Type", width: 200 },
     { field: "group", headerName: "Group", width: 200 },
     { field: "category", headerName: "Category", width: 200 },
-    { field: "date", headerName: "Date", width: 200 },
+    { field: "payment_date", headerName: "Date", width: 200 },
     { field: "amount", headerName: "Amount", width: 200 },
   ];
 
