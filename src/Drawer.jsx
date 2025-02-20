@@ -1,28 +1,28 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import GroupIcon from '@mui/icons-material/Group';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import { Link } from 'react-router-dom';
-import CardMembershipIcon from '@mui/icons-material/CardMembership';
-import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
+import * as React from "react";
+import PropTypes from "prop-types";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import GroupIcon from "@mui/icons-material/Group";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import { Link } from "react-router-dom";
+import CardMembershipIcon from "@mui/icons-material/CardMembership";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+import { IconButton, Badge } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -51,13 +51,7 @@ function ResponsiveDrawer(props) {
       {/* Removed extra Toolbar to eliminate space above sidebar */}
       <Divider />
       <List>
-        {[
-          { text: 'Dashboard', icon: <DashboardIcon />, link:"/dashboard" },
-          { text: 'Split Bills', icon: <CardMembershipIcon />, link:"/splitbills" },
-          { text: 'Debt Analysis', icon: <CurrencyExchangeIcon />, link:"/debtaly" },
-          { text: 'Expense Analysis', icon: <BarChartIcon />, link:"/expensegraphs" },
-          { text: 'User Profile', icon: <AccountCircleIcon />, link:"/userpro" },
-        ].map(({ text, icon, link }) => (
+        {sideBarItems.map(({ text, icon, link }) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={link}>
               <ListItemIcon>{icon}</ListItemIcon>
@@ -69,10 +63,11 @@ function ResponsiveDrawer(props) {
     </div>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
 
       {/* AppBar Fixed at the Top */}
@@ -82,18 +77,18 @@ function ResponsiveDrawer(props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
           height: 56, // Reduced AppBar height
-          display: 'flex',
-          justifyContent: 'center',
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <Toolbar sx={{ minHeight: 56, display: 'flex', alignItems: 'center' }}>
+        <Toolbar sx={{ minHeight: 56, display: "flex", alignItems: "center" }}>
           {/* Menu Button for Mobile */}
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
@@ -104,8 +99,36 @@ function ResponsiveDrawer(props) {
           </Typography>
 
           {/* Notification & Profile Icons */}
-          <NotificationsIcon sx={{marginRight:"2rem", cursor:"pointer"}} />
-          <AccountCircleIcon sx={{cursor:"pointer"}} />
+          {/* Bell Icon with Red Dot on New Notifications /}
+          <IconButton sx={{ marginRight: "2rem", cursor: "pointer" }} color="inherit" onClick={props.onBellClick}>
+            <Badge color="error" variant="dot" invisible={!(props.hasNewNotifications)}>
+              <NotificationsIcon  />
+            </Badge>
+          </IconButton>*/}
+          <IconButton
+            sx={{
+              width: "32px", // Matches the icon size
+              height: "32px", // Matches the icon size
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0, // Removes extra padding
+              marginRight:"1rem"
+            }}
+            color="inherit"
+            onClick={props.onBellClick}
+          >
+            <Badge
+              color="error"
+              variant="dot"
+              invisible={!props.hasNewNotifications}
+              sx={{ "& .MuiBadge-dot": { width: 8, height: 8 } }} // Adjusts the red dot size
+            >
+              <NotificationsIcon fontSize="small" />
+            </Badge>
+          </IconButton>
+
+          <AccountCircleIcon sx={{ cursor: "pointer" }} />
         </Toolbar>
       </AppBar>
 
@@ -124,8 +147,11 @@ function ResponsiveDrawer(props) {
           onClose={handleDrawerClose}
           ModalProps={{ keepMounted: true }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -135,12 +161,12 @@ function ResponsiveDrawer(props) {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
+            display: { xs: "none", sm: "block" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
               width: drawerWidth,
               height: `calc(100vh - 56px)`, // Sidebar adjusted to fit under AppBar
-              mt: '56px',
+              mt: "56px",
             },
           }}
           open
@@ -157,3 +183,27 @@ ResponsiveDrawer.propTypes = {
 };
 
 export default ResponsiveDrawer;
+
+const sideBarItems = [
+  { text: "Dashboard", icon: <DashboardIcon />, link: "/dashboard" },
+  {
+    text: "Split Bills",
+    icon: <CardMembershipIcon />,
+    link: "/splitbills",
+  },
+  {
+    text: "Debt Analysis",
+    icon: <CurrencyExchangeIcon />,
+    link: "/debtaly",
+  },
+  {
+    text: "Expense Analysis",
+    icon: <BarChartIcon />,
+    link: "/expensegraphs",
+  },
+  {
+    text: "User Profile",
+    icon: <AccountCircleIcon />,
+    link: "/userpro",
+  },
+];

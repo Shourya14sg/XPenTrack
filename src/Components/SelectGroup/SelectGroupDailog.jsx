@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import axios from "axios";
 import { domain } from "../../Constants/Constants";
 import ListItemButton from "@mui/material/ListItemButton";
-import {ConfirmGroupDialog} from './ConfirmGroupDialog'
+import { ConfirmGroupDialog } from "./ConfirmGroupDialog";
 const dummyGroups = [
   {
     groupID: 1,
@@ -39,8 +39,14 @@ const dummyGroups = [
   },
 ];
 
-export const SelectGroupDialog = ({ open, setOpen, setGroup ,expense,setExpense}) => {
-  const [groups, setGroups] = useState([...dummyGroups]);
+export const SelectGroupDialog = ({
+  open,
+  setOpen,
+  setGroup,
+  expense,
+  setExpense,
+}) => {
+  const [groups, setGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   /*
@@ -54,72 +60,100 @@ export const SelectGroupDialog = ({ open, setOpen, setGroup ,expense,setExpense}
       setMemberShares(initialShares);
       setTotalShare(expense.amount);
     }
-  }, [selectedGroup, expense.amount]);
-  /* useEffect(() => {
-    if (open) {
-      try{
-      axios.get(`${domain}/user/groups`)
-        .then((response) => {
+  }, [selectedGroup, expense.amount]);*/
+  useEffect(() => {
+    async function fetchGroups() {
+      if (open) {
+        try {
+          const User_data = JSON.parse(sessionStorage.getItem("user_data"));
+          const userID = User_data ? User_data.user.id : null;
+          const accessToken = User_data ? User_data.access : null;
+
+          const response = await axios.get(`${domain}/group/groups`, {
+            params: { userID }, // Pass userID as query param
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              "Content-Type": "application/json", // Ensure correct content type
+            },
+          });
+
           if (Array.isArray(response.data)) {
             setGroups(response.data); // Ensure only setting array data
+            console.log("Fetched Groups:", response.data);
           } else {
             console.error("Invalid data format:", response.data);
             setGroups([]); // Set empty array in case of error
           }
-        })
-        .catch((error) => console.error("Error fetching groups:", error));
-    }catch(Exception e){}}
-  }, [open]);*/
+        } catch (error) {
+          console.error("Error fetching groups:", error);
+          setGroups([]); // Set empty array in case of error
+        }
+      }
+    }
 
-  
+    fetchGroups();
+  }, [open]);
+
   const handleSelectGroup = (group) => {
     setSelectedGroup(group);
     setConfirmDialogOpen(true);
   };
 
   const handleConfirm = () => {
-      setConfirmDialogOpen(false);
-      setOpen(false);
+    setConfirmDialogOpen(false);
+    setOpen(false);
     //  alert(`Total share must equal the expense amount (${expense.amount})`);
   };
-  const handleCancel=()=>{
-    setOpen(false)
+  const handleCancel = () => {
+    setOpen(false);
     setGroup(null);
-  }
+  };
 
   return (
     <>
-    <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-      <DialogTitle>Select a Group</DialogTitle>
-      <DialogContent>
-        <List className="max-h-60 overflow-y-auto">
-          {groups.map((group) => {
-            const members = group.members.slice(0, 3).join(", ");
-            const moreCount = group.members.length - 3;
-            return (
-              <ListItem key={group.groupID} disablePadding>
-                <ListItemButton onClick={() => handleSelectGroup(group)}>
-                  <ListItemText
-                    primary={group.groupName}
-                    secondary={
-                      moreCount > 0 ? `${members}, +${moreCount} more` : members
-                    }
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCancel} color="error">
-          Cancel
-        </Button>
-      </DialogActions>
-    </Dialog>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Select a Group</DialogTitle>
+        <DialogContent>
+          <List className="max-h-60 overflow-y-auto">
+            {groups.map((group) => {
+              const groupName = group.name; // Fix for group name
+              const members = group.members.map((m) => m.user); // Extract user names
+              const displayedMembers = members.slice(0, 3).join(", ");
+              const moreCount = members.length - 3;
 
-    {/* Confirm Group Selection Dialog */}
-    {selectedGroup &&  (
+              return (
+                <ListItem key={group.id} disablePadding>
+                  {" "}
+                  {/* Use `id` for key */}
+                  <ListItemButton onClick={() => handleSelectGroup(group)}>
+                    <ListItemText
+                      primary={groupName}
+                      secondary={
+                        moreCount > 0
+                          ? `${displayedMembers}, +${moreCount} more`
+                          : displayedMembers
+                      }
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="error">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Confirm Group Selection Dialog */}
+      {selectedGroup && (
         <ConfirmGroupDialog
           open={confirmDialogOpen}
           setOpen={setConfirmDialogOpen}

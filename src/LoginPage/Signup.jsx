@@ -48,15 +48,15 @@ const Signup = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch('http://localhost:8000/api/signup/', {
+      const response = await fetch('http://localhost:8000/users/register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: formData.name,
+          username: formData.name,
           email: formData.email,
-          phone: formData.phone,
+          // phone: formData.phone,
           password: formData.password,
         })
       });

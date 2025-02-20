@@ -8,6 +8,7 @@ import LandingPage from './LandingPage/LandingPage.jsx'
 import SplitBills from './SplitBills/SplitBills.jsx'
 
 function App() {
+
   const checkauth = () => {
     const user_data = JSON.parse(sessionStorage.getItem('user_data'))
     const refreshToken = user_data?.refresh;
@@ -28,7 +29,7 @@ function App() {
         <Route path='/splitbills' element={<ProtectedRoute element={<SplitBills/>}/>} ></Route>
         <Route path='/debtaly' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
         <Route path='/expensegraphs' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
-        <Route path='/userpro' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
+        <Route path='/userpro' element={<ProtectedRoute element={<Dashboard/>}/>/*<Dashboard/>*/} ></Route>
       </Routes>
   )
 }

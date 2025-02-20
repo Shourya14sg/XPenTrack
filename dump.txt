@@ -14,3 +14,19 @@
 
 
         {/*inputProps={{ min: 0, max: totalAmount }}*/}
+
+
+        {groups.map((group) => {
+  const members = group.members.slice(0, 3).join(", ");
+  const moreCount = group.members.length - 3;
+  return (
+    <ListItem key={group.groupID} disablePadding>  {/* Ensure groupID is unique */}
+      <ListItemButton onClick={() => handleSelectGroup(group)}>
+        <ListItemText
+          primary={group.groupName}
+          secondary={moreCount > 0 ? `${members}, +${moreCount} more` : members}
+        />
+      </ListItemButton>
+    </ListItem>
+  );
+})}
