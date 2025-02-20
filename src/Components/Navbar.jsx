@@ -14,7 +14,7 @@ export const Navbar = (props) => {
     //const handleProfile=;
     
     return (
-    <div className="bg-indigo-600 flex justify-between items-end  h-20  p-4 mx-auto  shadow-md shadow-emerald-200/5">
+    <div className="bg-indigo-500 flex justify-between items-end  h-20  p-4 mx-auto  shadow-md shadow-emerald-200/5">
       <h1 className="w-1/2 text-3xl text-white font-bold">{Appname}</h1>
       <div  className="hidden sm:flex flex-row-reverse text-lg  gap-2 sm:text-xl sm:gap-8 items-end ">
         <FadeMenu >

@@ -2,6 +2,11 @@ import React, { useState } from 'react'
 import { AddExpence, Navbar } from '../Components';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import ExpenseTable from './ExpenseTable.jsx';
+import ResponsiveDrawer from '../Drawer.jsx';
+import { Box } from '@mui/material';
+
+const drawerWidth = 240;
 
 export const Dashboard = () => {
   const [isMenu,setIsMenu]=useState(true);
@@ -9,15 +14,17 @@ export const Dashboard = () => {
 
   return (
     <> 
-    <Navbar isMenu={isMenu} setIsMenu={setIsMenu}/>
-    <div className={isMenu?"fixed left-0  h-full w-[30%]  shadow-md shadow-emerald-200/40  ease-in-out duration-300":'fixed left-[-100%]'}>
-        <ul className="pt-2  uppercase gap-y-2 text-lg">
-          <li className="p-4 border-b border-gray-500/50">Analyze</li>
-          <li  className="p-4 border-b border-gray-500/50">Request</li>
-          <li className="p-4 border-b border-gray-500/50">Debts</li>
-        </ul>
-      </div>
-      
+    <ResponsiveDrawer isMenu={isMenu} setIsMenu={setIsMenu}/>
+    <Box
+        sx={{
+          marginTop:"5rem",
+          marginLeft: isMenu ? `${drawerWidth}px` : "0px", // Adjust margin when menu is open
+          transition: "margin 0.3s ease-in-out",
+          padding: "20px", // Add some padding for spacing
+        }}
+      >
+        <ExpenseTable />
+      </Box> 
       <Fab color="primary" aria-label="add" 
         sx={{
           position: 'fixed',
