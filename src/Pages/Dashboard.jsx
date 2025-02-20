@@ -3,11 +3,15 @@ import { AddExpence, Navbar } from '../Components';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import ExpenseTable from './ExpenseTable.jsx';
-import ResponsiveDrawer from '../Drawer.jsx';
+import ResponsiveDrawer from '../Components/Navigation/Drawer.jsx';
 import { Box } from '@mui/material';
 import NotificationTab from '../Components/Notifications/NotificationTab.jsx';
 import axios from 'axios';
-
+import { domain } from '../Constants/Constants.js';
+import {Route,Routes} from 'react-router-dom'
+import Sidebar from '../Components/Navigation/Sidebar.jsx';
+import SplitBills from '../SplitBills/SplitBills.jsx'
+import ExpenseAnalysis from './ExpenseAnalysis/ExpenseAnalysis.jsx'
 const drawerWidth = 240;
 
 export const Dashboard = () => {
@@ -23,17 +27,14 @@ export const Dashboard = () => {
   
     const fetchNotifications = async () => {
     try {
-      const response = await axios.get(`/api/notifications`,{
-        params: { userID }, // Pass userID as query param
+      const response = await axios.get(`${domain}/exp/pending-expenses/${userID}`,{
+        //params: { userID }, // query param
         headers: {
           Authorization: `Bearer ${accessToken}`,
-
-          'Content-Type': 'application/json', // Ensure correct content type
+          'Content-Type': 'application/json',
         },
-      }); // Replace with your actual API endpoint
+      }); 
       const newNotifications = Array.isArray(response.data) ? response.data : [];
-      // Check if new notifications arrived
-      //if(newNotifications==null) console.log("No notification")
       if (newNotifications.length > notifications.length) {
         setHasNewNotifications(true);
       }
@@ -50,45 +51,59 @@ export const Dashboard = () => {
 
     const interval = setInterval(() => {
       fetchNotifications();
-    }, 120000); // 2 minutes
-
+    }, 10000); 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
-
+  const handleDrawerToggle=()=>{
+    setIsMenu(!isMenu);
+  }
 
 
   return (
     <> 
-    <ResponsiveDrawer isMenu={isMenu} setIsMenu={setIsMenu}  
-        hasNewNotifications={hasNewNotifications}
-        onBellClick={() => {
-          setShowNotifications(!showNotifications);
-          setHasNewNotifications(false);
-        }} />
-    <Box
-        sx={{
-          marginTop:"5rem",
-          marginLeft: isMenu ? `${drawerWidth}px` : "0px", // Adjust margin when menu is open
-          transition: "margin 0.3s ease-in-out",
-          padding: "20px", // Add some padding for spacing
-        }}
-      >
-        <ExpenseTable />
-      </Box> 
-      {showNotifications && <NotificationTab notifications={notifications} />}
-      <Fab color="primary" aria-label="add" 
-        sx={{
-          position: 'fixed',
-          bottom: 40,  
-          right: 40,   
-          zIndex: 1000, 
-          
-        }} 
-        onClick={()=> setOpen(true)}
+        <Navbar
+          hasNewNotifications={hasNewNotifications}
+          onBellClick={() => {
+            setShowNotifications(!showNotifications);
+            setHasNewNotifications(false);
+          }}
+          handleDrawerToggle={handleDrawerToggle}
+        />
+        
+        <Sidebar />
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 1,
+            mt: "4rem",
+            ml: `${drawerWidth}px`,
+          }}
+        >
+          {showNotifications && <NotificationTab notifications={notifications} />}
+          <Routes>
+            <Route path="/" element={<ExpenseTable />} />
+            <Route path="/splitbills" element={<SplitBills/>} />
+            <Route path="/debtaly" element={<ExpenseTable />} />
+            <Route path="/expensegraphs" element={<ExpenseAnalysis/>} />
+            <Route path="/userpro" element={<ExpenseTable />} />
+          </Routes>{/**<Route path='/splitbills' element={<ProtectedRoute element={<SplitBills/>}/>} ></Route>
+        <Route path='/debtaly' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
+        <Route path='/expensegraphs' element={<ProtectedRoute element={<ExpenseAnalysis/>}/>} ></Route>
+        <Route path='/userpro' element={<ProtectedRoute element={<Dashboard/>}/>/*<Dashboard/>} ></Route> */}
+        </Box>
+        <Fab color="primary" aria-label="add"  onClick={() => setOpen(true)}
+          sx={{
+            position: "fixed",
+            bottom: 40,
+            right: 40,
+            zIndex: 1000,
+          }}
         >
           <AddIcon />
-      </Fab>
-      {open&&<AddExpence open={open} setOpen={setOpen} />}
-    </>
-  )
-}
+        </Fab>
+        {open && <AddExpence open={open} setOpen={setOpen} />}
+      
+  </>
+  );
+};

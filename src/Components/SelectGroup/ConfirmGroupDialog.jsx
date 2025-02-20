@@ -73,16 +73,13 @@ export const ConfirmGroupDialog = ({
       setGroup(selectedGroup);
       setExpense((prevExpense) => ({
         ...prevExpense,
-        group_id: selectedGroup.group_id, // Ensure correct group ID
-        split: Object.entries(shares).map(([userId, value]) => ({
+        group: selectedGroup.group_id, // Ensure correct group ID
+        splits: Object.entries(shares).map(([userId, value]) => ({
           user:userId, // Use correct user identifier
           amount:value,//+0.0,
           status:"pending"
         })),
-      }));/* Object.entries(shares).reduce((acc, [userId, value]) => {
-        acc[userId] = { user: userId, amount: value, status: "pending" };
-        return acc;
-      }, {}),*/
+      }));
       setOpen(false);
       handleConfirm();
     }

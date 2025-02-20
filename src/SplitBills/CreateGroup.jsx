@@ -23,7 +23,7 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
                 setError("User not authenticated.");
                 return;
             }
-            const res = await fetch(`${domain}users/get-user-by-email/?email=${email}`, {
+            const res = await fetch(`${domain}/users/get-user-by-email/?email=${email}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
         };
 
         try {
-            const res = await fetch(`${domain}group/groups/`, {
+            const res = await fetch(`${domain}/group/groups/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
