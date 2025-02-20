@@ -23,10 +23,10 @@ const dummyexpence={
     type:"personal",
   };
 export const AddExpence = ({ open, setOpen }) => {
-    const User = JSON.parse(sessionStorage.getItem("user_data"));
+    const [expense, setExpense] = useState(dummyexpence);
     const [group,setGroup]=useState(null)
     const [groupDialogOpen, setGroupDialogOpen] = useState(false);
-    const [expense, setExpense] = useState(dummyexpence);
+    const User = JSON.parse(sessionStorage.getItem("user_data"));
 
  const handleConfirm =async () => {
     let {title,amount,category}=expense;
@@ -37,7 +37,7 @@ export const AddExpence = ({ open, setOpen }) => {
     const updatedExpense={
         ...expense,
         owner:userId,
-        ...(group !== null && { group_id: group, type:"shared" })
+        ...(group !== null && { type:"shared" })
     }
     console.log("Submitted:", updatedExpense);
     try {
@@ -54,13 +54,14 @@ export const AddExpence = ({ open, setOpen }) => {
         console.error("Error submitting expense:", error);
       }
   };
-
   const handleChange = (e) => {
     setExpense({
       ...expense,
       [e.target.name]: e.target.value,
     });
   };
+   
+
 
   return (
     <>
@@ -118,10 +119,11 @@ export const AddExpence = ({ open, setOpen }) => {
             />
 
           {/* Add User & Group Buttons */}
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setGroupDialogOpen(true)}>
+          <div className={(expense.amount==0 || expense.title=="")?'hidden':"flex items-center gap-2 cursor-pointer "}
+                onClick={()=>setGroupDialogOpen(true)}>
               <AddCircleOutlineIcon  color="primary"  />
             <span >Add Group</span>
-            {group && <span className="text-sm text-gray-500 ml-2">({group})</span>}
+            {group && <span className="text-sm text-gray-500 ml-2">({group.groupName})</span>}
           </div>
         </div>
       </DialogContent>
@@ -134,10 +136,7 @@ export const AddExpence = ({ open, setOpen }) => {
         </Button>
       </DialogActions>
     </Dialog>
-    <SelectGroupDialog open={groupDialogOpen} setOpen={setGroupDialogOpen} setGroup={setGroup} />
-       {/* open={groupDialogOpen}
-        onClose={() => setGroupDialogOpen(false)}
-        onConfirm={(selectedGroup) => setGroup(selectedGroup)*/}
+    <SelectGroupDialog open={groupDialogOpen} setOpen={setGroupDialogOpen} group={group} setGroup={setGroup} expense={expense} setExpense={setExpense}/>
       
     </>
   );
