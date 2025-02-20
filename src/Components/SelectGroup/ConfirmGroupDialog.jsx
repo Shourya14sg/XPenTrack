@@ -27,7 +27,7 @@ export const ConfirmGroupDialog = ({
 
       let initialShares = Object.fromEntries(
         selectedGroup.members.map((member, index) => [
-          member,
+          member.user_id, // Use user_id as key instead of object
           index < remainder ? initialSplit + 1 : initialSplit, // Distribute remainder
         ])
       );
@@ -37,14 +37,11 @@ export const ConfirmGroupDialog = ({
     }
   }, [selectedGroup, totalAmount]);
 
-  const handleShareChange = (member, value) => {
+  const handleShareChange = (userId, value) => {
     let newValue = parseInt(value, 10) || 0; // Ensure only integer values
-    let tempShares = { ...shares, [member]: newValue };
+    let tempShares = { ...shares, [userId]: newValue };
 
-    const totalAssigned = Object.values(tempShares).reduce(
-      (sum, val) => sum + val,
-      0
-    );
+    const totalAssigned = Object.values(tempShares).reduce((sum, val) => sum + val, 0);
     let remaining = totalAmount - totalAssigned;
 
     if (remaining < 0) return; // Prevent exceeding total amount
@@ -61,9 +58,9 @@ export const ConfirmGroupDialog = ({
 
       let updatedShares = { ...shares };
 
-      members.forEach((member, index) => {
-        updatedShares[member] += perMemberExtra;
-        if (index < remainder) updatedShares[member] += 1;
+      members.forEach((userId, index) => {
+        updatedShares[userId] += perMemberExtra;
+        if (index < remainder) updatedShares[userId] += 1;
       });
 
       setShares(updatedShares);
@@ -76,13 +73,16 @@ export const ConfirmGroupDialog = ({
       setGroup(selectedGroup);
       setExpense((prevExpense) => ({
         ...prevExpense,
-        //group: { id: selectedGroup.groupID,name:selectedGroup.groupName },
-        groupID: selectedGroup.groupID,
-        split: Object.entries(shares).map(([member, value]) => ({
-          member,
-          value,
+        group_id: selectedGroup.group_id, // Ensure correct group ID
+        split: Object.entries(shares).map(([userId, value]) => ({
+          user:userId, // Use correct user identifier
+          amount:value,//+0.0,
+          status:"pending"
         })),
-      }));
+      }));/* Object.entries(shares).reduce((acc, [userId, value]) => {
+        acc[userId] = { user: userId, amount: value, status: "pending" };
+        return acc;
+      }, {}),*/
       setOpen(false);
       handleConfirm();
     }
@@ -90,19 +90,17 @@ export const ConfirmGroupDialog = ({
 
   return (
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
-      <DialogTitle>{selectedGroup.groupName}</DialogTitle>
+      <DialogTitle>{selectedGroup.group_name}</DialogTitle>
       <DialogContent>
-        <p className="text-md text-gray-600">
-          Distribute the Expense: ₹{totalAmount}
-        </p>
+        <p className="text-md text-gray-600">Distribute the Expense: ₹{totalAmount}</p>
         {selectedGroup.members.map((member) => (
-          <div key={member} className="flex items-center justify-between my-2">
-            <span>{member}</span>
+          <div key={member.user_id} className="flex items-center justify-between my-2">
+            <span>{member.username}</span>
             <TextField
               type="number"
               size="small"
-              value={shares[member] || ""}
-              onChange={(e) => handleShareChange(member, e.target.value)}
+              value={shares[member.user_id] || ""}
+              onChange={(e) => handleShareChange(member.user_id, e.target.value)}
               inputMode="numeric"
               onKeyDown={(e) => {
                 if (e.key === "-" || e.key === "e") {
@@ -121,24 +119,16 @@ export const ConfirmGroupDialog = ({
           Remaining: ₹{remainingAmount}
         </p>
         {remainingAmount > 0 && (
-          <Button
-            variant="outlined"
-            onClick={distributeRemainingAmount}
-            color="primary"
-          >
+          <Button variant="outlined" onClick={distributeRemainingAmount} color="primary">
             Distribute Remaining ₹{remainingAmount}
           </Button>
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={()=>setOpen(false)} color="error">
+        <Button onClick={() => setOpen(false)} color="error">
           Cancel
         </Button>
-        <Button
-          onClick={handleConfirmGroup}
-          color="primary"
-          disabled={remainingAmount !== 0}
-        >
+        <Button onClick={handleConfirmGroup} color="primary" disabled={remainingAmount !== 0}>
           Confirm
         </Button>
       </DialogActions>

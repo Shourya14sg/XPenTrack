@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import expensedata from '../Constants/Expensedatatemp.json';
 import { DataGrid } from '@mui/x-data-grid';
 import { domain } from '../Constants/Constants';
 import axios from 'axios';
@@ -120,30 +119,26 @@ import axios from 'axios';
 
 
 function ServerFilterGrid() {
-//   const [queryOptions, setQueryOptions] = React.useState({});
 const [rows, setRows] = useState([]); // Store data in state
   const [loading, setLoading] = useState(true);
-  const [data, setExpensedata] = useState();
-  
   const fetchExpenseData = async () => {
     try {
       const User_data=JSON.parse(sessionStorage.getItem("user_data"));
       const userID=User_data? User_data.user.id:null;
       const accessToken=User_data? User_data.access:null;    
-      const response = await axios.get(`${domain}/exp/expense/expenses`,{
-        params: { userID }, // Pass userID as query param
+      const response = await axios.get(`${domain}/exp/user-expenses/${userID}`,{
+        //params: { userID }, // Pass userID as query param
         headers: {
           Authorization: `Bearer ${accessToken}`,
 
           'Content-Type': 'application/json', // Ensure correct content type
         },
-      }); // Replace with your actual API endpoint
-      const newExpensedata = Array.isArray(response.data) ? response.data : [];
-      setExpensedata(newExpensedata);
-      setRows(data); // Set data from JSON file
+      }); 
+      const newExpensedata = Array.isArray(response.data)? response.data : [];//Array.isArray(response.data) 
+      setRows(newExpensedata); // Set data from JSON file
     } catch (error) {
       console.error('Error fetching Expense Data:', error);
-      setExpensedata([]); // Set to empty array on error
+      setRows([]); // Set to empty array on error
 
     }
     finally{
@@ -154,27 +149,18 @@ const [rows, setRows] = useState([]); // Store data in state
     fetchExpenseData(); // Initial fetch
     const interval = setInterval(() => {
       fetchExpenseData();
-    }, 120000); // 2 minutes
+    }, 30000); // 2 minutes
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
 
-  /*
-  useEffect(() => {
-    // Simulating API call delay
-    setTimeout(() => {
-      setRows(expensedata); // Set data from JSON file
-      setLoading(false);
-    }, 1000);
-  }, []);
-*/
   const column = [
-    { field: "description", headerName: "Description", width: 200 },
-    { field: "type", headerName: "Type", width: 200 },
-    { field: "group", headerName: "Group", width: 200 },
     { field: "category", headerName: "Category", width: 200 },
-    { field: "payment_date", headerName: "Date", width: 200 },
+    { field: "type", headerName: "Type", width: 200 },
     { field: "amount", headerName: "Amount", width: 200 },
+    { field: "description", headerName: "Description", width: 200 },
+    { field: "payment_date", headerName: "Date", width: 200 },
+    { field: "group", headerName: "Group", width: 200 },
   ];
 
 //   const onFilterChange = React.useCallback((filterModel) => {
@@ -219,5 +205,4 @@ const ExpenseTable = () => {
         </div>
     )
 }
-
 export default ExpenseTable

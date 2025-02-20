@@ -33,5 +33,8 @@ function App() {
       </Routes>
   )
 }
-
+const logout=()=>{
+  sessionStorage.removeItem("user_data")
+  return <Navigate to="/login" replace />
+};
 export default App

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Card, FormControl, FormLabel, TextField, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { domain } from '../Constants/Constants';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -48,7 +49,7 @@ const Signup = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch('http://localhost:8000/users/register/', {
+      const response = await fetch(`${domain}/users/register/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
