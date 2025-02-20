@@ -1,61 +1,18 @@
-      <FormControl fullWidth margin="dense">
-          <InputLabel>Category</InputLabel>
-          <Select
-            value={expense.category}
-            onChange={handleChange}
-          >
-            {expenseCategories.map((category, index) => (
-              <MenuItem key={index} value={category}>
-                {category}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-
-
-        {/*inputProps={{ min: 0, max: totalAmount }}*/}
-
-
-        {groups.map((group) => {
-  const members = group.members.slice(0, 3).join(", ");
-  const moreCount = group.members.length - 3;
-  return (
-    <ListItem key={group.groupID} disablePadding>  {/* Ensure groupID is unique */}
-      <ListItemButton onClick={() => handleSelectGroup(group)}>
-        <ListItemText
-          primary={group.groupName}
-          secondary={moreCount > 0 ? `${members}, +${moreCount} more` : members}
-        />
-      </ListItemButton>
-    </ListItem>
-  );
-})}
-
-const sideBarItems = [
-  { text: "Dashboard", icon: <DashboardIcon />, link: "/dashboard" },
-  { text: "Split Bills", icon: <CardMembershipIcon />, link: "/dashboard/splitbills" },
-  { text: "Debt Analysis", icon: <CurrencyExchangeIcon />, link: "/dashboard/debtaly" },
-  { text: "Expense Analysis", icon: <BarChartIcon />, link: "/dashboard/expensegraphs" },
-  { text: "User Profile", icon: <AccountCircleIcon />, link: "/dashboard/userpro" },
-];
-
 import React from "react";
 import { AppBar, Toolbar, Typography, IconButton, Badge } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-
 const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick }) => {
   return (
     <AppBar
       position="fixed"
       sx={{
-        width: { sm: `calc(100% - 240px)` }, // Adjust width when sidebar is visible
-        ml: { sm: "240px" },
+        width: "100%",
         height: 56,
         display: "flex",
         justifyContent: "center",
-       // zIndex: 100000,
+        mb:2
       }}
     >
       <Toolbar sx={{ minHeight: 56, display: "flex", alignItems: "center" }}>
@@ -64,7 +21,14 @@ const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick }) => {
           color="inherit"
           edge="start"
           onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: "none" } }}
+          sx={{ mr: 2,
+            width: "32px", // Matches the icon size
+            height: "32px", // Matches the icon size
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 0, // Removes extra padding
+            display: { sm: "none" } }}
         >
           <MenuIcon />
         </IconButton>
@@ -83,7 +47,7 @@ const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick }) => {
             alignItems: "center",
             justifyContent: "center",
             padding: 0, // Removes extra padding
-            marginRight:"1rem"
+            mr:2
           }}
           color="inherit"
           onClick={onBellClick}

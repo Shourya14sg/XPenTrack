@@ -1,3 +1,3 @@
-import { Navbar } from "./Navbar";
+import  Navbar  from "./Navigation/Navbar";
 import { AddExpence } from "./AddExpense/AddExpence";
 export{Navbar,AddExpence};

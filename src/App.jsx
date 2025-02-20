@@ -5,7 +5,7 @@ import Login from './LoginPage/Login.jsx'
 import Signup from './LoginPage/Signup.jsx'
 import {Dashboard} from './Pages/Dashboard.jsx'
 import LandingPage from './LandingPage/LandingPage.jsx'
-import SplitBills from './SplitBills/SplitBills.jsx'
+
 
 function App() {
 
@@ -21,16 +21,15 @@ function App() {
   };
 
   return (
+    <div className='overflow-hidden'>
       <Routes>
         <Route path='/' element={<LandingPage/>} ></Route>
         <Route path='/login' element={<Login/>} ></Route>
         <Route path='/signup' element={<Signup/>} ></Route>
-        <Route path='/dashboard' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
-        <Route path='/splitbills' element={<ProtectedRoute element={<SplitBills/>}/>} ></Route>
-        <Route path='/debtaly' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
-        <Route path='/expensegraphs' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
-        <Route path='/userpro' element={<ProtectedRoute element={<Dashboard/>}/>/*<Dashboard/>*/} ></Route>
+        <Route path='/dashboard/*' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
+      
       </Routes>
+      </div>
   )
 }
 const logout=()=>{

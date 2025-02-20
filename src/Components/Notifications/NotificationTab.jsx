@@ -7,7 +7,7 @@ const NotificationTab = ({ notifications=[] }) => {
       sx={{
         width: 350,
         position: "absolute",
-        top: "60px", 
+        top: "55px", 
         right: "20px", 
         backgroundColor: "background.paper",
         boxShadow: 3,
@@ -25,19 +25,20 @@ const NotificationTab = ({ notifications=[] }) => {
           No new notifications.
         </Typography>
       ) : (
-        <List>
+        <List className='max-h-120 overflow-y-auto scroll-sm'>
           {notifications.map((notification, index) => (
-            <ListItem key={index} sx={{ padding: "0" }}>
-              <Card sx={{ width: "100%", mb: 1, backgroundColor: "#121212", color: "white" }}>
+            <ListItem key={index} disablePadding >
+              <Card sx={{ width: "100%", mb: 1, backgroundColor: "white", color: "black" }}>
                 <CardContent>
-                  <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
-                    {notification.title}
+                  <Typography variant="subtitle1" sx={{ fontWeight: "bold", color:"#0000ff" }}>
+                    {notification.group_name}
                   </Typography>
-                  <Typography variant="body2">{notification.message}</Typography>
+                  <Typography variant="body2">{`You Owe ₹${notification.amount} to ${notification.owner_name}`.trim()}</Typography>
                 </CardContent>
               </Card>
             </ListItem>
-          ))}
+            )
+          )}
         </List>
       )}
     </Box>

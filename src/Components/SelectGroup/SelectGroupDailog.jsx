@@ -49,7 +49,6 @@ export const SelectGroupDialog = ({ open, setOpen, setGroup, expense, setExpense
         }
       }
     }
-
     fetchGroups();
   }, [open]);
 
