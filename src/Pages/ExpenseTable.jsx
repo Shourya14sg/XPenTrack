@@ -185,13 +185,28 @@ const [rows, setRows] = useState([]); // Store data in state
 //   const { isLoading, rows } = useQuery(queryOptions);
 
   return (
+
     <div style={{ height: 'full', width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={column}
         filterMode="client"
+        pageSizeOptions={[10]}
         // onFilterModelChange={onFilterChange}
         loading={loading}
+        sx={{
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: "#f4f4f4",
+            color: "#333",
+            fontWeight: "bold",
+          },
+          "& .MuiDataGrid-root": {
+            border: "none",
+          },
+          "& .MuiDataGrid-row:hover": {
+            backgroundColor: "#f0f0f0",
+          },
+        }}
       />
     </div>
   );

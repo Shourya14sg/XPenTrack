@@ -49,6 +49,7 @@ function ResponsiveDrawer(props) {
   const drawer = (
     <div>
       {/* Removed extra Toolbar to eliminate space above sidebar */}
+      {/* <Typography>XPenTrack</Typography> */}
       <Divider />
       <List>
         {sideBarItems.map(({ text, icon, link }) => (
