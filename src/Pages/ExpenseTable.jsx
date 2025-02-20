@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import expensedata from '../Constants/Expensedatatemp.json';
+import { DataGrid } from '@mui/x-data-grid';
+import { domain } from '../Constants/Constants';
+import axios from 'axios';
 // import Table from '@mui/material/Table';
 // import TableBody from '@mui/material/TableBody';
 // import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -6,7 +10,6 @@ import React, { useEffect, useState } from 'react'
 // import TableHead from '@mui/material/TableHead';
 // import TableRow from '@mui/material/TableRow';
 // import Paper from '@mui/material/Paper';
-import expensedata from './Expensedatatemp.json';
 // import { TablePagination } from '@mui/material';
 
 
@@ -111,16 +114,52 @@ import expensedata from './Expensedatatemp.json';
 //     </Paper>
 //     );
 // }
-import { DataGrid } from '@mui/x-data-grid';
 // import { createFakeServer } from '@mui/x-data-grid-generator';
 
 // const { useQuery, ...data } = createFakeServer();
+
 
 function ServerFilterGrid() {
 //   const [queryOptions, setQueryOptions] = React.useState({});
 const [rows, setRows] = useState([]); // Store data in state
   const [loading, setLoading] = useState(true);
+  const [data, setExpensedata] = useState();
+  
+  const fetchExpenseData = async () => {
+    try {
+      const User_data=JSON.parse(sessionStorage.getItem("user_data"));
+      const userID=User_data? User_data.user.id:null;
+      const accessToken=User_data? User_data.access:null;    
+      const response = await axios.get(`${domain}/exp/expense/expenses`,{
+        params: { userID }, // Pass userID as query param
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
 
+          'Content-Type': 'application/json', // Ensure correct content type
+        },
+      }); // Replace with your actual API endpoint
+      const newExpensedata = Array.isArray(response.data) ? response.data : [];
+      setExpensedata(newExpensedata);
+      setRows(data); // Set data from JSON file
+    } catch (error) {
+      console.error('Error fetching Expense Data:', error);
+      setExpensedata([]); // Set to empty array on error
+
+    }
+    finally{
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchExpenseData(); // Initial fetch
+    const interval = setInterval(() => {
+      fetchExpenseData();
+    }, 120000); // 2 minutes
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, []);
+
+
+  /*
   useEffect(() => {
     // Simulating API call delay
     setTimeout(() => {
@@ -128,7 +167,7 @@ const [rows, setRows] = useState([]); // Store data in state
       setLoading(false);
     }, 1000);
   }, []);
-
+*/
   const column = [
     { field: "description", headerName: "Description", width: 200 },
     { field: "type", headerName: "Type", width: 200 },
@@ -146,7 +185,8 @@ const [rows, setRows] = useState([]); // Store data in state
 //   const { isLoading, rows } = useQuery(queryOptions);
 
   return (
-    <div style={{ height: 400, width: '100%', padding: "10px", background: "#fff", borderRadius: "8px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }}>
+
+    <div style={{ height: 'full', width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={column}

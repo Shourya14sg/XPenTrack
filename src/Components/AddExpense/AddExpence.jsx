@@ -41,7 +41,8 @@ export const AddExpence = ({ open, setOpen }) => {
     }
     console.log("Submitted:", updatedExpense);
     try {
-        await axios.post(`${domain}/exp/expense`, updatedExpense,{
+        await axios.post(`${domain}/exp/expense/expenses/`, updatedExpense,{
+            
             headers: {
               Authorization: `Bearer ${accessToken}`,
               'Content-Type': 'application/json', // Ensure correct content type
