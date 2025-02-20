@@ -4,25 +4,19 @@ import './App.css'
 import { Navigate, Route ,Routes } from 'react-router-dom'
 import Login from './LoginPage/Login.jsx'
 import Signup from './LoginPage/Signup.jsx'
-import { Dashboard } from './Pages'
+import {Dashboard} from './Pages/Dashboard.jsx'
 import LandingPage from './LandingPage/LandingPage.jsx'
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
+  const checkauth = () => {
     const user_data = JSON.parse(sessionStorage.getItem('user_data'))
     const refreshToken = user_data?.refresh;
     const accessToken = user_data?.access;
-    if (refreshToken && accessToken) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []); 
+    return refreshToken && accessToken;
+  } 
 
   const ProtectedRoute = ({ element }) => {
-    return isLoggedIn ? element : <Navigate to="/login" replace />;
+    return checkauth() ? element : <Navigate to="/login" replace />;
   };
 
   return (
