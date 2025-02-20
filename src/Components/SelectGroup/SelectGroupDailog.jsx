@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import axios from "axios";
 import { domain } from "../../Constants/Constants";
 import ListItemButton from "@mui/material/ListItemButton";
-
+import {ConfirmGroupDialog} from './ConfirmGroupDialog'
 const dummyGroups = [
   {
     groupID: 1,
@@ -39,27 +39,56 @@ const dummyGroups = [
   },
 ];
 
-export const SelectGroupDialog = ({ open, setOpen, setGroup }) => {
+export const SelectGroupDialog = ({ open, setOpen, setGroup ,expense,setExpense}) => {
   const [groups, setGroups] = useState([...dummyGroups]);
-
+  const [selectedGroup, setSelectedGroup] = useState(null);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
   /*
   useEffect(() => {
+    if (selectedGroup) {
+      const totalMembers = selectedGroup.members.length;
+      const defaultShare = (expense.amount / totalMembers).toFixed(2);
+      const initialShares = Object.fromEntries(
+        selectedGroup.members.map((member) => [member, parseFloat(defaultShare)])
+      );
+      setMemberShares(initialShares);
+      setTotalShare(expense.amount);
+    }
+  }, [selectedGroup, expense.amount]);
+  /* useEffect(() => {
     if (open) {
-      //try{
+      try{
       axios.get(`${domain}/user/groups`)
-        .then((response) => setGroups([...response.data]))
+        .then((response) => {
+          if (Array.isArray(response.data)) {
+            setGroups(response.data); // Ensure only setting array data
+          } else {
+            console.error("Invalid data format:", response.data);
+            setGroups([]); // Set empty array in case of error
+          }
+        })
         .catch((error) => console.error("Error fetching groups:", error));
-    //}catch{}
-  }
-  }, [open]);//*/
+    }catch(Exception e){}}
+  }, [open]);*/
 
+  
   const handleSelectGroup = (group) => {
-    setGroup(group);
-    
-   // setOpen(false);
+    setSelectedGroup(group);
+    setConfirmDialogOpen(true);
   };
 
+  const handleConfirm = () => {
+      setConfirmDialogOpen(false);
+      setOpen(false);
+    //  alert(`Total share must equal the expense amount (${expense.amount})`);
+  };
+  const handleCancel=()=>{
+    setOpen(false)
+    setGroup(null);
+  }
+
   return (
+    <>
     <Dialog open={open} onClose={() => setOpen(false)} maxWidth="sm" fullWidth>
       <DialogTitle>Select a Group</DialogTitle>
       <DialogContent>
@@ -83,68 +112,24 @@ export const SelectGroupDialog = ({ open, setOpen, setGroup }) => {
         </List>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpen(false)} color="error">
+        <Button onClick={handleCancel} color="error">
           Cancel
         </Button>
       </DialogActions>
     </Dialog>
+
+    {/* Confirm Group Selection Dialog */}
+    {selectedGroup &&  (
+        <ConfirmGroupDialog
+          open={confirmDialogOpen}
+          setOpen={setConfirmDialogOpen}
+          selectedGroup={selectedGroup}
+          setGroup={setGroup}
+          expense={expense}
+          setExpense={setExpense}
+          handleConfirm={handleConfirm}
+        />
+      )}
+    </>
   );
 };
-//*/
-
-/*
-import React, { useEffect, useState } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
-
-const groupOptions = ["Family", "Friends", "Work", "Roommates", "Others"];
-
-export const SelectGroupDialog = ({ open, onClose, onConfirm }) => {
-  const [selectedGroup, setSelectedGroup] = useState(null);
-
-  const handleSelect = (group) => {
-    setSelectedGroup(group);
-  };
-
-  const handleConfirm = () => {
-    onConfirm(selectedGroup);
-    onClose();
-  };
-
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="xs" fullWidth>
-      <DialogTitle>Select a Group</DialogTitle>
-      <DialogContent>
-        <List>
-          {groupOptions.map((group, index) => (
-            <ListItem key={index} disablePadding>
-              <ListItemButton onClick={() => handleSelect(group)}>
-                <Checkbox checked={selectedGroup === group} />
-                <ListItemText primary={group} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="error" variant="outlined">
-          Cancel
-        </Button>
-        <Button onClick={handleConfirm} color="primary" variant="contained" disabled={!selectedGroup}>
-          Confirm
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
-
-//export default SelectGroupDialog;
-//*/
