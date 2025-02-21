@@ -3,7 +3,6 @@ import { AddExpence, Navbar } from '../Components';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import ExpenseTable from './ExpenseTable.jsx';
-import ResponsiveDrawer from '../Components/Navigation/Drawer.jsx';
 import { Box } from '@mui/material';
 import NotificationTab from '../Components/Notifications/NotificationTab.jsx';
 import axios from 'axios';
@@ -12,6 +11,7 @@ import {Route,Routes} from 'react-router-dom'
 import Sidebar from '../Components/Navigation/Sidebar.jsx';
 import SplitBills from '../SplitBills/SplitBills.jsx'
 import ExpenseAnalysis from './ExpenseAnalysis/ExpenseAnalysis.jsx'
+import FadeMenu from '../Components/FadeMenu.jsx';
 const drawerWidth = 240;
 
 export const Dashboard = () => {
@@ -20,6 +20,7 @@ export const Dashboard = () => {
   const [notifications, setNotifications] = useState([]);
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [visitProfile,SetVisitProfile]=useState(false);
 
   const User_data=JSON.parse(sessionStorage.getItem("user_data"));
   const userID=User_data? User_data.user.id:null;
@@ -65,7 +66,12 @@ export const Dashboard = () => {
           hasNewNotifications={hasNewNotifications}
           onBellClick={() => {
             setShowNotifications(!showNotifications);
+            visitProfile?SetVisitProfile(false):""
             setHasNewNotifications(false);
+          }}
+          onProfileClick={()=>{
+            SetVisitProfile(!visitProfile)
+            showNotifications?setShowNotifications(false):""
           }}
           handleDrawerToggle={handleDrawerToggle}
         />
@@ -81,6 +87,7 @@ export const Dashboard = () => {
           }}
         >
           {showNotifications && <NotificationTab notifications={notifications} />}
+          {/*visitProfile */}
           <Routes>
             <Route path="/" element={<ExpenseTable />} />
             <Route path="/splitbills" element={<SplitBills/>} />
