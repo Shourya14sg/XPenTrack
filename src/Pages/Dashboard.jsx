@@ -52,7 +52,7 @@ export const Dashboard = () => {
     fetchNotifications(); // Initial fetch
     const interval = setInterval(() => {
       fetchNotifications();
-    }, 5000); 
+    }, 20000); 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, [open]);
 
