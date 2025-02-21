@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Navigate, Route ,Routes } from 'react-router-dom'
+import { Route ,Routes, useNavigate } from 'react-router-dom'
 import Login from './LoginPage/Login.jsx'
 import Signup from './LoginPage/Signup.jsx'
 import {Dashboard} from './Pages/Dashboard.jsx'
@@ -9,7 +9,9 @@ import LandingPage from './LandingPage/LandingPage.jsx'
 
 function App() {
 
+  const navigate = useNavigate();
   const checkauth = () => {
+
     const user_data = JSON.parse(sessionStorage.getItem('user_data'))
     const refreshToken = user_data?.refresh;
     const accessToken = user_data?.access;
@@ -24,7 +26,7 @@ function App() {
     <div className='overflow-hidden'>
       <Routes>
         <Route path='/' element={<LandingPage/>} ></Route>
-        <Route path='/login' element={<Login/>} ></Route>
+        <Route path='/login' element={<Login/>}></Route>
         <Route path='/signup' element={<Signup/>} ></Route>
         <Route path='/dashboard/*' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
       
@@ -32,8 +34,5 @@ function App() {
       </div>
   )
 }
-const logout=()=>{
-  sessionStorage.removeItem("user_data")
-  return <Navigate to="/login" replace />
-};
+
 export default App

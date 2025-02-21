@@ -14,6 +14,11 @@ export default function FadeMenu(props) {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    sessionStorage.removeItem("user_data")
+    return <Navigate to="/login" replace />
+  }
+
   return (
     <div>
       <div
@@ -38,7 +43,7 @@ export default function FadeMenu(props) {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </div>
   );

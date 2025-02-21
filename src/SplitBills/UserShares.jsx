@@ -31,15 +31,6 @@ export default function TransactionUserModal({ open, handleClose, selectedTransa
                         {selectedTransaction.splits.map((user) => (
                             <ListItem key={user.user_id} divider>
                                 <ListItemText primary={`${user.username} - ₹${user.amount}`} secondary={`Status: ${user.status}`} />
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    size="small"
-                                    disabled={user.status === "completed"}
-                                    onClick={() => handleStatusUpdate(user.user_id, selectedTransaction.expense_id)}
-                                >
-                                    Mark as Completed
-                                </Button>
                             </ListItem>
                         ))}
                     </List>

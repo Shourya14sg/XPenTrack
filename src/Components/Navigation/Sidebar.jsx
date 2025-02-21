@@ -78,4 +78,5 @@ const sideBarItems = [
   { text: "Debt Analysis", icon: <CurrencyExchangeIcon />, link: "/dashboard/debtaly" },
   { text: "Expense Analysis", icon: <BarChartIcon />, link: "/dashboard/expensegraphs" },
   { text: "User Profile", icon: <AccountCircleIcon />, link: "/dashboard/userpro" },
+  { text: "Logout", icon: <AccountCircleIcon />, link: "/login" },
 ];

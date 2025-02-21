@@ -9,7 +9,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import GroupIcon from "@mui/icons-material/Group";
 import PersonIcon from "@mui/icons-material/Person";
 import TransactionUserModal from "./UserShares.jsx";
-import { domain } from "../Constants/Constants.js";
+import { domain, APIauth } from "../Constants/Constants.js";
 
 export default function SplitBills() {
     const [groups, setGroups] = useState([]);  // Store groups
@@ -46,13 +46,7 @@ export default function SplitBills() {
 
     const fetchTransactions = async (group) => {
         try {
-            const res = await fetch(`${domain}/exp/expense/expenses/group-expenses/${group.group_id}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${thisuserid.access}`,
-                },
-            });
+            const res = await fetch(`${domain}/exp/expense/expenses/group-expenses/${group.group_id}`, APIauth({req:"GET"}));
             const data = await res.json();
             setTransactions((prev) => ({
                 ...prev,
@@ -88,7 +82,7 @@ export default function SplitBills() {
         <>
             <CreateGroupModal setGroups={setGroups} onGroupCreated={handleGroupCreated} />
             <List
-                sx={{ width: "100%", maxWidth: 800, bgcolor: "background.paper"}}
+                sx={{ width: "100%", maxWidth: 800, bgcolor: "background.paper" }}
                 component="nav"
                 aria-labelledby="nested-list-subheader"
                 subheader={
@@ -132,7 +126,7 @@ export default function SplitBills() {
                 )}
 
                 <Modal open={openModal} onClose={handleClose}>
-                    <Box sx={{ padding: 3, height:"60vh", backgroundColor: "white", maxWidth: 500, margin: "auto", marginTop: "10%", overflowY:"scroll" }}>
+                    <Box sx={{ padding: 3, height: "60vh", backgroundColor: "white", maxWidth: 500, margin: "auto", marginTop: "10%", overflowY: "scroll" }}>
                         <Typography variant="h6">{selectedGroup?.group_name} - Transaction History</Typography>
 
                         {selectedGroup && transactions[selectedGroup.group_id]?.length > 0 ? (
@@ -140,7 +134,10 @@ export default function SplitBills() {
                                 {transactions[selectedGroup.group_id].map((expense) => (
                                     <ListItem key={expense.expense_id} divider>
                                         <ListItemButton onClick={() => handleTransactionClick(expense)}>
-                                            <ListItemText primary={`${expense.category} - ₹${expense.amount} - ${expense.description}`} />
+                                            <ListItemText
+                                                primary={`${expense.category} - ₹${expense.amount} - ${expense.description}`}
+                                                // secondary={`${selectedGroup.}`}
+                                            />
                                         </ListItemButton>
                                     </ListItem>
                                 ))}

@@ -91,7 +91,7 @@ const ExpenseAnalysis = () => {
                     <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => `${value} USD`} />
+                <Tooltip formatter={(value) => `₹ ${value} `} />
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
@@ -109,7 +109,7 @@ const ExpenseAnalysis = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />
-                <Tooltip formatter={(value) => `${value} USD`} />
+                <Tooltip formatter={(value) => `₹ ${value}`} />
                 <Legend />
                 <Bar dataKey="amount" fill="#82ca9d" />
               </BarChart>
@@ -129,7 +129,7 @@ const ExpenseAnalysis = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="date" />
               <YAxis />
-              <Tooltip formatter={(value) => `${value} USD`} />
+              <Tooltip formatter={(value) => `₹ ${value}`} />
               <Legend />
               <Line type="monotone" dataKey="amount" stroke="#8884d8" strokeWidth={2} />
             </LineChart>
