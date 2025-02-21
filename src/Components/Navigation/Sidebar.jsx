@@ -1,6 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
-import { Link } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
@@ -12,9 +12,9 @@ const Sidebar = () => {
   const drawer = (
     <div>     
       <List>
-        {sideBarItems.map(({ text, icon, link }) => (
+        {sideBarItems.map(({ text, icon, link, action }) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton component={Link} to={link}>
+            <ListItemButton component={link ? "a" : "button"} onClick={action || undefined} href={link || undefined}>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -52,7 +52,8 @@ const sideBarItems = [
   { text: "Split Bills", icon: <CardMembershipIcon />, link: "/dashboard/splitbills" },
   { text: "Debt Analysis", icon: <CurrencyExchangeIcon />, link: "/dashboard/debtanalysis" },
   { text: "Expense Analysis", icon: <BarChartIcon />, link: "/dashboard/expensegraphs" },
-  //{ text: "User Profile", icon: <AccountCircleIcon />, link: "/dashboard/userpro" },
+  { text: "User Profile", icon: <AccountCircleIcon />, link: "/dashboard/userpro" },
+  { text: "Logout", icon: <AccountCircleIcon />, link: "/login" },
 ];
 /**
        <Drawer

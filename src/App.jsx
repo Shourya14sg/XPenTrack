@@ -8,7 +8,9 @@ import LandingPage from './LandingPage/LandingPage.jsx'
 
 function App() {
 
+  const navigate = useNavigate();
   const checkauth = () => {
+
     const user_data = JSON.parse(sessionStorage.getItem('user_data'))
     return user_data?.refresh && user_data?.access;
   } 

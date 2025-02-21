@@ -48,7 +48,7 @@ const Login = () => {
             style={{ backgroundColor:"#615fff" }}
         >
             <Card className='w-full max-w-sm sm:max-w-md md:max-w-lg px-12 sm:p-20 shadow-2xl flex flex-col items-center gap-4'>
-                <Typography variant='h6' component="div" className="text-center">XPenTrack</Typography>
+                <Typography variant='h6' component="div" className="text-center">SplitUp</Typography>
                 <Typography variant='h4' component="div" className="text-center">Sign In</Typography>
                 {error && <Alert severity="error">{error}</Alert>}
                 <Box component="form" onSubmit={handleSubmit} noValidate>
@@ -89,14 +89,6 @@ const Login = () => {
                         Sign in
                     </Button>
                 </Box>
-
-                <Typography
-                    component="button"
-                    type="button"
-                    className='text-gray-600 hover:underline text-sm text-center'
-                >
-                    Forgot your password?
-                </Typography>
 
                 <Typography
                     component={Link}
