@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import { Route ,Routes, useNavigate } from 'react-router-dom'
+import { Navigate, Route ,Routes, useNavigate } from 'react-router-dom'
 import Login from './LoginPage/Login.jsx'
 import Signup from './LoginPage/Signup.jsx'
 import {Dashboard} from './Pages/Dashboard.jsx'

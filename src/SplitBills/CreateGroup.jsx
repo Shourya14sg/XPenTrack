@@ -161,7 +161,7 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
                                     <DeleteIcon />
                                 </IconButton>
                             }>
-                                <ListItemText primary={user.username} secondary={user.user_id} />
+                                <ListItemText primary={user.username}/>
                             </ListItem>
                         ))}
                     </List>

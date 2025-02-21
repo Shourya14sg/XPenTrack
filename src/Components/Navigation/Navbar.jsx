@@ -3,7 +3,9 @@ import { AppBar, Toolbar, Typography, IconButton, Badge } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick }) => {
+import FadeMenu from "../FadeMenu";
+
+const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick, onProfileClick }) => {
   return (
     <AppBar
       position="fixed"
@@ -61,7 +63,10 @@ const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick }) => {
             <NotificationsIcon fontSize="small" />
           </Badge>
         </IconButton>
-        <AccountCircleIcon sx={{ cursor: "pointer" }} />
+        <FadeMenu>
+          <AccountCircleIcon sx={{ cursor: "pointer" }} onClick={onProfileClick} /> 
+        </FadeMenu>
+        
       </Toolbar>
     </AppBar>
   );

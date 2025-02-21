@@ -20,6 +20,7 @@ const dummyexpence={
     amount: 0,
     category: "",
     description: "",
+    date:"",
     type:"personal",
   };
 export const AddExpence = ({ open, setOpen }) => {
@@ -85,7 +86,7 @@ export const AddExpence = ({ open, setOpen }) => {
               fullWidth
               variant="outlined"
               name="amount"
-              value={expense.amount}
+              value={expense.amount>=0&&expense.amount<Math.pow(10,8)?expense.amount:0}
               onChange={handleChange}
             />
 
@@ -119,7 +120,7 @@ export const AddExpence = ({ open, setOpen }) => {
             />
 
           {/* Add User & Group Buttons */}
-          <div className={(expense.amount==0 || expense.title=="")?'hidden':"flex items-center gap-2 cursor-pointer "}
+          <div className={(expense.amount<=0 || expense.title=="")?'hidden':"flex items-center gap-2 cursor-pointer "}
                 onClick={()=>setGroupDialogOpen(true)}>
               <AddCircleOutlineIcon  color="primary"  />
             <span >Add Group</span>

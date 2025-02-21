@@ -7,7 +7,7 @@ import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import FadeMenu from "./DropDownMenu";
 
 const profileItems=[{title:'Profile',task:""},{title:'My Account',}]
-export const Navbar = (props) => {
+export const TopNavbar = (props) => {
     const [showProfile,setShowProfile]=useState(false);
     const [notification,setNotification]=useState(false);
     const  handleNav=()=>{props.setIsMenu(!(props.isMenu));}

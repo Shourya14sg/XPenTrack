@@ -1,3 +1,3 @@
 
-const Appname="XPenTrack"
+const Appname="SplitUp"
 export {Appname}
