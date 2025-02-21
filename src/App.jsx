@@ -1,5 +1,5 @@
 import './App.css'
-import { Navigate, Route ,Routes  } from 'react-router-dom'
+import { Navigate, Route ,Routes } from 'react-router-dom'
 import Login from './LoginPage/Login.jsx'
 import Signup from './LoginPage/Signup.jsx'
 import {Dashboard} from './Pages/Dashboard.jsx'
@@ -28,10 +28,8 @@ function App() {
       </div>
   )
 }
-export const logout=()=>{
-  const navigate=useNavigate();
-  sessionStorage.removeItem("user_data")
-  navigate('/', { replace: true }); 
-  return <Navigate to="/" replace />
+export const logout = (navigate) => {
+  sessionStorage.removeItem("user_data");
+  navigate("/", { replace: true }); 
 };
 export default App
