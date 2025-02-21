@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Box, Button, Card, FormControl, FormLabel, TextField, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { domain } from '../Constants/Constants';
@@ -8,6 +8,12 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    useEffect(() => {
+        const userData = JSON.parse(sessionStorage.getItem('user_data'));
+        if (userData?.access && userData?.refresh) {
+            navigate('/dashboard', { replace: true }); 
+        }
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,8 +32,8 @@ const Login = () => {
             
             if (response.ok) {
                 sessionStorage.setItem('user_data', JSON.stringify(data));
-                
-                navigate('/dashboard');
+                navigate('/dashboard', { replace: true });
+              //navigate('/dashboard');
             } else {
                 setError(data.error || 'Invalid credentials');
             }

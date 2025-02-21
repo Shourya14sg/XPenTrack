@@ -72,7 +72,7 @@ const ExpenseAnalysis = () => {
     <div className="p-6 w-full">
       {/* Filters Section */}
       <div className="mb-6 p-4 bg-gray-100 rounded-lg shadow-md">
-        <h2 className="text-lg font-semibold">Filters</h2>
+        <h2 className="text-lg font-semibold text-center">Analysis Charts</h2>
         {/* Add dropdowns, date pickers, etc. here */}
       </div>
 
@@ -84,9 +84,9 @@ const ExpenseAnalysis = () => {
           {loading ? (
             <div className="text-center text-gray-500">Loading Pie Chart...</div>
           ) : (
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={400}>
               <PieChart>
-                <Pie data={pieData} cx="50%" cy="50%" outerRadius={100} label fill="#8884d8" dataKey="value">
+                <Pie data={pieData} cx="50%" cy="50%"  outerRadius={95} label fill="#8884d8" dataKey="value">
                   {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
                   ))}
