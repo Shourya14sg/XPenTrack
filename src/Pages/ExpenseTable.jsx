@@ -46,8 +46,19 @@ function ExpenseTable({open}) {
   },[open]);
 
   const handleSave = (updatedexp) => {
-    setRows((prevRows) => prevRows.map(row => row.id === updatedexp.id ? updatedexp : row))
-  }
+    setRows((prevRows) =>
+        prevRows.map(row => 
+            row.id === updatedexp.id 
+            ? { 
+                ...updatedexp, 
+                group_name: updatedexp.group_name || row.group_name,
+                payment_date: updatedexp.payment_date ? new Date(updatedexp.payment_date).toISOString() : row.payment_date
+              }
+            : row
+        )
+    );
+}
+
 
   const handleEditClick = (expense) => {
     console.log("Edit clicked for:", expense);
@@ -57,19 +68,26 @@ function ExpenseTable({open}) {
   };
 
   const column = [
-    { field: "category", headerName: "Category", width: 200},
-    { field: "type", headerName: "Type", width: 200 },
-    { field: "amount", headerName: "Amount", width: 200 },
-    { field: "description", headerName: "Description", width: 200 },
-    { field: "payment_date", headerName: "Date", width: 200 },
-    { field: "group", headerName: "Group", width: 100 },
+    { field: "category", headerName: "Category", width: 180},
+    { field: "type", headerName: "Type", width: 180 },
+    { field: "amount", headerName: "Amount", width: 180 },
+    { field: "description", headerName: "Description", width: 180 },
+    { field: "group_name", headerName: "Group", width: 180 },
+    {
+      field: "payment_date",
+      headerName: "Date",
+      width: 180,
+      renderCell: (params) => {
+        const date = new Date(params.value);
+        return date.toLocaleDateString("en-GB");
+      },
+    },
     {
       field: "edit",
       headerName: "Actions",
       width: 120,
       sortable: false,
       renderCell: (params) => 
-        params.row.type === "personal" ? (
         <Button
           variant="contained"
           color="primary"
@@ -79,7 +97,6 @@ function ExpenseTable({open}) {
         >
           Edit
         </Button>
-      ): null,
     },
   ];
 

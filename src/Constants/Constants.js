@@ -10,3 +10,13 @@ export const APIauth = ({req}) => { return ({
         "Authorization": `Bearer ${thisuserid.access}`,
     },
 })}
+
+export const APIauthPost = ({payload}) => {
+    return({
+        headers:{
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${thisuserid.access}`,
+            "body": JSON.stringify(payload)
+        }
+    })
+}

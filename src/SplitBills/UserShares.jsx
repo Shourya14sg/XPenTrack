@@ -30,7 +30,7 @@ export default function TransactionUserModal({ open, handleClose, selectedTransa
                     <List>
                         {selectedTransaction.splits.map((user) => (
                             <ListItem key={user.user_id} divider>
-                                <ListItemText primary={`${user.username} - ₹${user.amount}`} secondary={`Status: ${user.status}`} />
+                                <ListItemText primary={`${thisuserid.user.id===user.user_id? "You": user.username} - ₹${user.amount}`} secondary={`Status: ${user.status}`} />
                             </ListItem>
                         ))}
                     </List>

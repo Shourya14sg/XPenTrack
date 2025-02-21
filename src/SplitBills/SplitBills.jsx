@@ -10,27 +10,26 @@ import GroupIcon from "@mui/icons-material/Group";
 import PersonIcon from "@mui/icons-material/Person";
 import TransactionUserModal from "./UserShares.jsx";
 import { domain, APIauth } from "../Constants/Constants.js";
+import { Delete } from "@mui/icons-material";
+import AddMemberModal from "./AddMember.jsx";
 
 export default function SplitBills() {
-    const [groups, setGroups] = useState([]);  // Store groups
-    const [openGroups, setOpenGroups] = useState({}); // Track expanded groups
-    const [transactions, setTransactions] = useState({}); // Store transactions
-    const [selectedGroup, setSelectedGroup] = useState(null); // Store selected group
-    const [selectedTransaction, setSelectedTransaction] = useState(null); // Store selected transaction
-    const [openModal, setOpenModal] = useState(false); // Track modal state
-    const [openUserModal, setOpenUserModal] = useState(false); // Track user modal state
-    const [refreshTrigger, setRefreshTrigger] = useState(0); // Add refresh trigger
+    const [groups, setGroups] = useState([]);
+    const [openGroups, setOpenGroups] = useState({}); 
+    const [transactions, setTransactions] = useState({}); 
+    const [selectedGroup, setSelectedGroup] = useState(null);
+    const [selectedTransaction, setSelectedTransaction] = useState(null); 
+    const [openModal, setOpenModal] = useState(false); 
+    const [openUserModal, setOpenUserModal] = useState(false); 
+    const [refreshTrigger, setRefreshTrigger] = useState(0); 
+
+    const [openAddMemberModal, setOpenAddMemberModal] = useState(false);
+    const [selectedGroupForAdding, setSelectedGroupForAdding] = useState(null);
 
     const thisuserid = JSON.parse(sessionStorage.getItem("user_data"));
 
     const fetchGroups = () => {
-        fetch(`${domain}/group/groups/user/${thisuserid.user.id}`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${thisuserid.access}`,
-            },
-        })
+        fetch(`${domain}/group/groups/user/${thisuserid.user.id}`, APIauth({ req: "GET" }))
             .then((res) => res.json())
             .then((data) => setGroups(data))
             .catch((err) => console.error("Error fetching groups:", err));
@@ -46,7 +45,7 @@ export default function SplitBills() {
 
     const fetchTransactions = async (group) => {
         try {
-            const res = await fetch(`${domain}/exp/expense/expenses/group-expenses/${group.group_id}`, APIauth({req:"GET"}));
+            const res = await fetch(`${domain}/exp/expense/expenses/group-expenses/${group.group_id}`, APIauth({ req: "GET" }));
             const data = await res.json();
             setTransactions((prev) => ({
                 ...prev,
@@ -74,6 +73,44 @@ export default function SplitBills() {
         setSelectedGroup(null);
         setSelectedTransaction(null);
     };
+
+    const handleDeleteUser = async (deleteuserid, groupid) => {
+        try {
+            const res = await fetch(`${domain}/group/group-members/${deleteuserid}/`, APIauth({ req: "DELETE" }));
+            if (res.ok) {
+                setGroups(prevGroups => {
+                    return prevGroups
+                        .map(group => {
+                            if (group.group_id === groupid) {
+                                const updatedMembers = group.members.filter(member => member.group_member_id !== deleteuserid);
+                                // If no members left, remove the group
+                                if (updatedMembers.length === 0) {
+                                    return null; // Mark for removal
+                                }
+                                return { ...group, members: updatedMembers };
+                            }
+                            return group;
+                        })
+                        .filter(group => group !== null); // Remove empty groups
+                });
+            }
+            else {
+                console.error("Failed to delete user:", await response.json());
+            }
+        }
+        catch (e) { console.error("Error Deleting User:", e); }
+    };
+
+    const handleOpenAddMemberModal = (group) => {
+        setSelectedGroupForAdding(group);
+        setOpenAddMemberModal(true);
+    };
+
+    const handleCloseAddMemberModal = () => {
+        setOpenAddMemberModal(false);
+        setSelectedGroupForAdding(null);
+    };
+
 
     const handleUserClose = () => {
         setOpenUserModal(false);
@@ -113,11 +150,17 @@ export default function SplitBills() {
                                                 <PersonIcon />
                                             </ListItemIcon>
                                             <ListItemText primary={member.username} />
+                                            <ListItemIcon>
+                                                {group.owner === thisuserid.user.id ? <Delete onClick={() => handleDeleteUser(member.group_member_id, group.group_id)} /> : null}
+                                            </ListItemIcon>
                                         </ListItemButton>
                                     ))
                                 ) : (
                                     <ListItemText sx={{ pl: 4, fontStyle: "italic" }} primary="No members available" />
                                 )}
+                                <ListItemButton onClick={() => handleOpenAddMemberModal(group)}>
+                                    <ListItemText sx={{ color: "#0000FF" }} primary="+Add Member" />
+                                </ListItemButton>
                             </List>
                         </Collapse>
                     </React.Fragment>
@@ -136,7 +179,7 @@ export default function SplitBills() {
                                         <ListItemButton onClick={() => handleTransactionClick(expense)}>
                                             <ListItemText
                                                 primary={`${expense.category} - ₹${expense.amount} - ${expense.description}`}
-                                                // secondary={`${selectedGroup.}`}
+                                                secondary={`Paid By - ${expense.owner}`}
                                             />
                                         </ListItemButton>
                                     </ListItem>
@@ -149,6 +192,12 @@ export default function SplitBills() {
                 </Modal>
 
                 <TransactionUserModal open={openUserModal} handleClose={handleUserClose} selectedTransaction={selectedTransaction} refreshTransactions={() => fetchTransactions(selectedGroup)} />
+                <AddMemberModal
+                    open={openAddMemberModal}
+                    handleClose={handleCloseAddMemberModal}
+                    selectedGroup={selectedGroupForAdding}
+                    refreshGroups={() => setRefreshTrigger(prev => prev + 1)}
+                />
             </List>
         </>
     );

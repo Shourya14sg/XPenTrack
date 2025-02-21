@@ -81,7 +81,7 @@ const Signup = () => {
       style={{ backgroundColor: "#615fff" }}
     >
       <Card className='w-full max-w-lg shadow-2xl flex flex-col space-y-4 py-5 px-16'>
-        <Typography variant='h6' component="div">XPenTrack</Typography>
+        <Typography variant='h6' component="div">SplitUp</Typography>
         <Typography variant='h4' component="div">Sign Up</Typography>
         
         {error && <Alert severity="error">{error}</Alert>}
@@ -118,20 +118,6 @@ const Signup = () => {
 
           <FormControl sx={{ marginY: "0.3rem" }} className="w-full">
             <TextField
-              id="phone"
-              label="Phone No."
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              fullWidth
-              variant="outlined"
-            />
-          </FormControl>
-
-          <FormControl sx={{ marginY: "0.3rem" }} className="w-full">
-            <TextField
               id="password"
               label="Create Password"
               type="password"
@@ -141,6 +127,7 @@ const Signup = () => {
               required
               fullWidth
               variant="outlined"
+              slotProps={{ htmlInput: { minLength: 12 } }}
             />
           </FormControl>
 
@@ -155,6 +142,7 @@ const Signup = () => {
               required
               fullWidth
               variant="outlined"
+              slotProps={{ htmlInput: { minLength: 12 } }}
             />
           </FormControl>
 

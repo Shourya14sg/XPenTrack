@@ -70,6 +70,7 @@ export const Dashboard = () => {
             SetVisitProfile(!visitProfile)
             showNotifications?setShowNotifications(false):""
           }}
+          handleDrawerToggle={handleDrawerToggle}
         />
         
         <Sidebar />

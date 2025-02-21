@@ -25,7 +25,7 @@ const EditExpenseModal = ({ open, handleClose, expense, onSave }) => {
                 amount: expense.amount || "",
                 category: expense.category || "",
                 description: expense.description || "",
-                status: expense.status || "",
+                status: "Paid",
             });
         }
     }, [expense]);
@@ -75,13 +75,13 @@ const EditExpenseModal = ({ open, handleClose, expense, onSave }) => {
                     value={formData.description} onChange={handleChange}
                 />
 
-                <TextField
+                {/* <TextField
                     fullWidth margin="normal" select label="Status" name="status"
                     value={formData.status} onChange={handleChange}
                 >
                     <MenuItem value="pending">Pending</MenuItem>
                     <MenuItem value="approved">Approved</MenuItem>
-                </TextField>
+                </TextField> */}
 
                 <Box sx={{ mt: 2, display: "flex", justifyContent: "space-around" }}>
                     <Button variant="outlined" color="primary" onClick={handleClose} sx={{ width: "6rem" }}>Cancel</Button>
