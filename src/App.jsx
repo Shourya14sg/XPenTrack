@@ -20,7 +20,7 @@ function App() {
   return (
     <div className='overflow-hidden'>
       <Routes>
-        <Route path='/' element={<ProtectedRoute element={<LandingPage/>}/>} ></Route>
+        <Route path='/' element={<LandingPage/>} ></Route>
         <Route path='/login' element={/*checkauth() ? <Navigate to="/dashboard" replace /> : */<Login />} ></Route>
         <Route path='/signup' element={<Signup/>} ></Route>
         <Route path='/dashboard/*' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
@@ -29,10 +29,8 @@ function App() {
       </div>
   )
 }
-export const logout=()=>{
-  const navigate=useNavigate();
-  sessionStorage.removeItem("user_data")
-  navigate('/', { replace: true }); 
-  return <Navigate to="/" replace />
+export const logout = (navigate) => {
+  sessionStorage.removeItem("user_data");
+  navigate("/", { replace: true }); 
 };
 export default App

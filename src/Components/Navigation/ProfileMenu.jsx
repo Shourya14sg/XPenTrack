@@ -3,10 +3,12 @@ import { useState, useEffect } from "react";
 import { Button, Divider, Typography, Box } from "@mui/material";
 import { logout } from "../../App";
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileMenu(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [userData, setUserData] = useState(null);
+  const navigate=useNavigate();
   const open = Boolean(anchorEl);
 
   useEffect(() => {
@@ -25,10 +27,10 @@ export default function ProfileMenu(props) {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("user_data"); // Clear user data
+    //sessionStorage.removeItem("user_data"); // Clear user data
+    
     setAnchorEl(null);
-    logout();
-    console.log("Logged out");
+    logout(navigate);
   };
 
   return (
