@@ -89,7 +89,7 @@ export const Dashboard = () => {
             ml: `${drawerWidth}px`,
           }}
         >
-          {showNotifications && <NotificationTab notifications={notifications} />}
+          {showNotifications && <NotificationTab onMouseLeave={() => setShowNotifications(false)} notifications={notifications} />}
           {/*visitProfile */}
           <Routes>
             <Route path="/" element={<ExpenseTable open={open}/>} />
