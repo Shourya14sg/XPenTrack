@@ -207,4 +207,9 @@ const sideBarItems = [
     icon: <AccountCircleIcon />,
     link: "/userpro",
   },
+  {
+    text: "Logout",
+    icon: <AccountCircleIcon />,
+    link: "/",
+  },
 ];

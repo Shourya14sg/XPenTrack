@@ -85,14 +85,6 @@ const Login = () => {
                 </Box>
 
                 <Typography
-                    component="button"
-                    type="button"
-                    className='text-gray-600 hover:underline text-sm text-center'
-                >
-                    Forgot your password?
-                </Typography>
-
-                <Typography
                     component={Link}
                     to="/signup"
                     className='text-gray-600 text-sm text-center'
