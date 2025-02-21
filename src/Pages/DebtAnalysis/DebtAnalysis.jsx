@@ -1,17 +1,8 @@
 import axios from 'axios';
 import React, { useState,useEffect } from 'react'
 import {domain} from '../../Constants/Constants'
-import {List, ListItem,ListItemButton,ListItemText,Button,Paper,Typography } from '@mui/material'
-const groupdata={
-  "owner_name":{
-        "nAME": "john",
-        "split_expense_id": "569ccb01-4e32-42a3-b773-4c411f36a22e",
-        "expense_description": "Trip to the mountains",
-        "amount": 150.0,
-        "status": "pending",
-        "group_name": "Friends Trip somil zain"
-  }
-}
+import {List, ListItem,ListItemText,Button,Paper,Typography } from '@mui/material'
+
 export const DebtAnalysis = () => {
     const [loading ,setLoading]=useState(true);
     const[groups,setPendingGroups]=useState({});
@@ -66,7 +57,7 @@ export const DebtAnalysis = () => {
 };
 
   return (
-    <div className="p-4 bg-[#F8F8FF]">
+    <div className="p-2 h-[100vh] overflow-y-auto scroll-sm bg-[#F8F8FF]">
       {loading ? (
         <p className="text-center text-gray-500">Loading groups...</p>
       ) : Object.keys(groups).length === 0 ? (
