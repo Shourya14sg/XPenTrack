@@ -1,14 +1,11 @@
-import { useEffect, useState } from 'react'
 import './App.css'
-import { Navigate, Route ,Routes,useNavigate  } from 'react-router-dom'
+import { Navigate, Route ,Routes } from 'react-router-dom'
 import Login from './LoginPage/Login.jsx'
 import Signup from './LoginPage/Signup.jsx'
 import {Dashboard} from './Pages/Dashboard.jsx'
 import LandingPage from './LandingPage/LandingPage.jsx'
 
 function App() {
-
-  const navigate = useNavigate();
   const checkauth = () => {
 
     const user_data = JSON.parse(sessionStorage.getItem('user_data'))

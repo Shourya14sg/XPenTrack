@@ -9,7 +9,6 @@ const LandingPage = () => {
     useEffect(() => {
             const userData = JSON.parse(sessionStorage.getItem('user_data'));
             if (userData?.access && userData?.refresh) {
-                console.log(userData)
                 navigate('/dashboard', { replace: true }); 
             }
         }, []);

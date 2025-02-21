@@ -16,15 +16,17 @@ import { logout } from '../App.jsx';
 const drawerWidth = 240;
 
 export const Dashboard = () => {
+  const navigate=useNavigate();
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState({});
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [visitProfile,SetVisitProfile]=useState(false);
+  
   const User_data=JSON.parse(sessionStorage.getItem("user_data"));
   const userID=User_data? User_data.user.id:null;
   const accessToken=User_data? User_data.access:null;
-  const navigate=useNavigate();
+  
   
   
   const fetchNotifications = async () => {
@@ -42,11 +44,11 @@ export const Dashboard = () => {
         setNotifications(newNotifications);
       }
     } catch (error) {
-      //console.error('Error fetching notifications:', error.response.status);
-      setNotifications({}); // Set to empty array on error
+      console.error(error);
+      setNotifications({});
       if(error.response.status==401){
         logout(navigate);
-      }// logout();
+      }
     }
   };
 
@@ -73,7 +75,6 @@ export const Dashboard = () => {
             SetVisitProfile(!visitProfile)
             showNotifications?setShowNotifications(false):""
           }}
-          handleDrawerToggle={handleDrawerToggle}
         />
         
         <Sidebar />
