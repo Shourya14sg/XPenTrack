@@ -10,51 +10,54 @@ import { domain } from '../Constants/Constants.js';
 import {Route,Routes} from 'react-router-dom'
 import Sidebar from '../Components/Navigation/Sidebar.jsx';
 import SplitBills from '../SplitBills/SplitBills.jsx'
-import ExpenseAnalysis from './ExpenseAnalysis/ExpenseAnalysis.jsx'
-import FadeMenu from '../Components/FadeMenu.jsx';
+import {ExpenseAnalysis,DebtAnalysis} from '.'
+import { logout } from '../App.jsx';
+
 const drawerWidth = 240;
 
 export const Dashboard = () => {
   const [isMenu,setIsMenu]=useState(true);
   const [open, setOpen] = useState(false);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState({});
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [visitProfile,SetVisitProfile]=useState(false);
-
   const User_data=JSON.parse(sessionStorage.getItem("user_data"));
   const userID=User_data? User_data.user.id:null;
   const accessToken=User_data? User_data.access:null;
   
-    const fetchNotifications = async () => {
+  const fetchNotifications = async () => {
     try {
       const response = await axios.get(`${domain}/exp/pending-expenses/${userID}`,{
-        //params: { userID }, // query param
+        params: {last_day:true}, 
         headers: {
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       }); 
-      const newNotifications = Array.isArray(response.data) ? response.data : [];
-      if (newNotifications.length > notifications.length) {
+      const newNotifications = response.data// Object.values(response.data).flat()//Array.isArray(response.data) ? response.data : [];
+      if (Object.keys(newNotifications).length >Object.keys(notifications).length ) {
         setHasNewNotifications(true);
+        setNotifications(newNotifications);
+        console.log(response.data)
       }
-
-      setNotifications(newNotifications);
     } catch (error) {
-      console.error('Error fetching notifications:', error);
-      setNotifications([]); // Set to empty array on error
+      //console.error('Error fetching notifications:', error.response.status);
+      setNotifications({}); // Set to empty array on error
+      if(error.response.status==401) logout();
     }
   };
 
   useEffect(() => {
+    //window.history.replaceState(null, '', '/dashboard');
     fetchNotifications(); // Initial fetch
-
     const interval = setInterval(() => {
       fetchNotifications();
-    }, 10000); 
+    }, 100000); 
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
+
+
   const handleDrawerToggle=()=>{
     setIsMenu(!isMenu);
   }
@@ -89,15 +92,12 @@ export const Dashboard = () => {
           {showNotifications && <NotificationTab notifications={notifications} />}
           {/*visitProfile */}
           <Routes>
-            <Route path="/" element={<ExpenseTable />} />
+            <Route path="/" element={<ExpenseTable open={open}/>} />
             <Route path="/splitbills" element={<SplitBills/>} />
-            <Route path="/debtaly" element={<ExpenseTable />} />
+            <Route path="/debtanalysis" element={<DebtAnalysis />} />
             <Route path="/expensegraphs" element={<ExpenseAnalysis/>} />
             <Route path="/userpro" element={<ExpenseTable />} />
-          </Routes>{/**<Route path='/splitbills' element={<ProtectedRoute element={<SplitBills/>}/>} ></Route>
-        <Route path='/debtaly' element={<ProtectedRoute element={<Dashboard/>}/>} ></Route>
-        <Route path='/expensegraphs' element={<ProtectedRoute element={<ExpenseAnalysis/>}/>} ></Route>
-        <Route path='/userpro' element={<ProtectedRoute element={<Dashboard/>}/>/*<Dashboard/>} ></Route> */}
+          </Routes>
         </Box>
         <Fab color="primary" aria-label="add"  onClick={() => setOpen(true)}
           sx={{
