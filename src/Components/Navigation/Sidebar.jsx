@@ -75,7 +75,7 @@ export default Sidebar;
 const sideBarItems = [
   { text: "Dashboard", icon: <DashboardIcon />, link: "/dashboard" },
   { text: "Split Bills", icon: <CardMembershipIcon />, link: "/dashboard/splitbills" },
-  { text: "Debt Analysis", icon: <CurrencyExchangeIcon />, link: "/dashboard/debtaly" },
+  { text: "Debt Analysis", icon: <CurrencyExchangeIcon />, link: "/dashboard/debtanalysis" },
   { text: "Expense Analysis", icon: <BarChartIcon />, link: "/dashboard/expensegraphs" },
   { text: "User Profile", icon: <AccountCircleIcon />, link: "/dashboard/userpro" },
 ];

@@ -4,7 +4,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FadeMenu from "../FadeMenu";
-
+import {Appname} from "../../Constants/Constants"
 const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick, onProfileClick }) => {
   return (
     <AppBar
@@ -37,7 +37,7 @@ const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick, onProfil
 
         {/* App Name */}
         <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-          XPenTrack
+          {Appname}
         </Typography>
 
         {/* Notification Bell with Red Dot */}

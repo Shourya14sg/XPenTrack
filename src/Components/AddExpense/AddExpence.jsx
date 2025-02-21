@@ -85,7 +85,7 @@ export const AddExpence = ({ open, setOpen }) => {
               fullWidth
               variant="outlined"
               name="amount"
-              value={expense.amount>=0?expense.amount:0}
+              value={expense.amount>=0 && expense.amount<Math.pow(10,7)?expense.amount:0}
               onChange={handleChange}
             />
 

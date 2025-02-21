@@ -6,7 +6,7 @@ import { Button, Modal } from '@mui/material';
 import EditExpenseModal from './EditExpenses.jsx';
 
 
-function ServerFilterGrid() {
+function ExpenseTable({open}) {
   const [rows, setRows] = useState([]); // Store data in state
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
@@ -41,9 +41,9 @@ function ServerFilterGrid() {
     fetchExpenseData(); // Initial fetch
     const interval = setInterval(() => {
       fetchExpenseData();
-    }, 30000); // 2 minutes
+    }, 500000); // 2 minutes
     return () => clearInterval(interval); // Cleanup interval on unmount
-  }, []);
+  },[open]);
 
   const handleSave = (updatedexp) => {
     setRows((prevRows) => prevRows.map(row => row.id === updatedexp.id ? updatedexp : row))
@@ -119,11 +119,5 @@ function ServerFilterGrid() {
   );
 }
 
-const ExpenseTable = () => {
-    return (
-        <div>
-            <ServerFilterGrid />
-        </div>
-    )
-}
+
 export default ExpenseTable
