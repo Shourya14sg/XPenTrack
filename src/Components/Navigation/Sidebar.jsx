@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Box, Drawer, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
@@ -52,8 +51,6 @@ const sideBarItems = [
   { text: "Split Bills", icon: <CardMembershipIcon />, link: "/dashboard/splitbills" },
   { text: "Debt Analysis", icon: <CurrencyExchangeIcon />, link: "/dashboard/debtanalysis" },
   { text: "Expense Analysis", icon: <BarChartIcon />, link: "/dashboard/expensegraphs" },
-  { text: "User Profile", icon: <AccountCircleIcon />, link: "/dashboard/userpro" },
-  { text: "Logout", icon: <AccountCircleIcon />, link: "/login" },
 ];
 /**
        <Drawer

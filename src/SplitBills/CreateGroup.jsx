@@ -106,7 +106,7 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
     };
 
     return (
-        <div style={{ margin: "5rem auto 2rem 5rem" }}>
+        <div style={{ margin: "2rem auto 2rem 5rem" }}>
             {/* Button to Open Modal */}
             <Button variant="contained" onClick={() => setOpen(true)}>
                 Create New Group

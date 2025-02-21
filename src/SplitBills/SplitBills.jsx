@@ -76,7 +76,13 @@ export default function SplitBills() {
 
     const handleDeleteUser = async (deleteuserid, groupid) => {
         try {
-            const res = await fetch(`${domain}/group/group-members/${deleteuserid}/`, APIauth({ req: "DELETE" }));
+            const res = await fetch(`${domain}/group/group-members/${deleteuserid}/`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${thisuserid.access}`,
+                },
+            });
             if (res.ok) {
                 setGroups(prevGroups => {
                     return prevGroups
@@ -95,7 +101,7 @@ export default function SplitBills() {
                 });
             }
             else {
-                console.error("Failed to delete user:", await response.json());
+                console.error("Failed to delete user:", await res.json());
             }
         }
         catch (e) { console.error("Error Deleting User:", e); }
