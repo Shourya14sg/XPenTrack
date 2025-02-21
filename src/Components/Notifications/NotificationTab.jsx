@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, Typography, List, ListItem, Card, CardContent } from "@mui/material";
 
-const NotificationTab = ({ notifications = {} }) => {
+const NotificationTab = ({ notifications = {},onMouseLeave }) => {
   return (
     <Box
+      onMouseLeave={onMouseLeave}
       sx={{
         width: 350,
         position: "fixed",

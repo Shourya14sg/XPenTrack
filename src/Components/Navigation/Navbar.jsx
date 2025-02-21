@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, IconButton, Badge } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FadeMenu from "../FadeMenu";
+import FadeMenu from "./FadeMenu"
 import {Appname} from "../../Constants/Constants"
 const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick, onProfileClick }) => {
   return (
