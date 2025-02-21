@@ -16,7 +16,6 @@ import { logout } from '../App.jsx';
 const drawerWidth = 240;
 
 export const Dashboard = () => {
-  const [isMenu,setIsMenu]=useState(true);
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState({});
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
@@ -25,6 +24,7 @@ export const Dashboard = () => {
   const User_data=JSON.parse(sessionStorage.getItem("user_data"));
   const userID=User_data? User_data.user.id:null;
   const accessToken=User_data? User_data.access:null;
+  
   
   const fetchNotifications = async () => {
     try {
@@ -39,7 +39,6 @@ export const Dashboard = () => {
       if (Object.keys(newNotifications).length >Object.keys(notifications).length ) {
         setHasNewNotifications(true);
         setNotifications(newNotifications);
-        console.log(response.data)
       }
     } catch (error) {
       //console.error('Error fetching notifications:', error.response.status);
@@ -58,11 +57,6 @@ export const Dashboard = () => {
   }, []);
 
 
-  const handleDrawerToggle=()=>{
-    setIsMenu(!isMenu);
-  }
-
-
   return (
     <> 
         <Navbar
@@ -76,7 +70,6 @@ export const Dashboard = () => {
             SetVisitProfile(!visitProfile)
             showNotifications?setShowNotifications(false):""
           }}
-          handleDrawerToggle={handleDrawerToggle}
         />
         
         <Sidebar />
@@ -90,7 +83,7 @@ export const Dashboard = () => {
           }}
         >
           {showNotifications && <NotificationTab onMouseLeave={() => setShowNotifications(false)} notifications={notifications} />}
-          {/*visitProfile */}
+          
           <Routes>
             <Route path="/" element={<ExpenseTable open={open}/>} />
             <Route path="/splitbills" element={<SplitBills/>} />
