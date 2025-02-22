@@ -72,6 +72,7 @@ const Signup = () => {
         setSuccess('Account created successfully! Redirecting to login...');
         setTimeout(() => navigate('/login'), 3000);
       } else {
+        console.log(response)
         setError(data.error || 'Failed to create an account. Please try again.');
       }
     } catch (error) {
@@ -96,7 +97,7 @@ const Signup = () => {
             <TextField
               id="name"
               type="text"
-              label="Full Name"
+              label="username"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -149,7 +150,7 @@ const Signup = () => {
               slotProps={{ htmlInput: { minLength: 12 } }}
             />
           </FormControl>
-
+          <div className='flex justify-center pt-2'>
           <Button
             type="submit"
             fullWidth
@@ -158,6 +159,7 @@ const Signup = () => {
           >
             Sign Up
           </Button>
+          </div>
         </form>
 
         <Typography
@@ -165,7 +167,7 @@ const Signup = () => {
           to="/login"
           className='text-gray-600 text-sm text-center'
         >
-          Already have an account? <span className='text-black hover:underline'>Login</span>
+          Already have an account? <span className='font-black hover:underline text-blue-500'>Login</span>
         </Typography>
       </Card>
     </div>
