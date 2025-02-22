@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Card, FormControl, FormLabel, TextField, Typography, Alert } from '@mui/material';
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 import { Link, useNavigate } from 'react-router-dom';
 import { domain } from '../Constants/Constants';
 

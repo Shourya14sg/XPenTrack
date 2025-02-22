@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import {
-    TextField, Button, Box, Typography, List, ListItem,
-    ListItemText, IconButton, Modal
-} from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import IconButton from "@mui/material/IconButton";
+import Modal from "@mui/material/Modal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { domain } from "../Constants/Constants";
 
