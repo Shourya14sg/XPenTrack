@@ -44,7 +44,9 @@ const ExpenseAnalysis = () => {
 
         // Process Bar Chart Data (Daily Expenses)
         const dailyTotals = data.reduce((acc, expense) => {
-          const date = expense.payment_date?.split("T")[0] || "Unknown Date";
+          if (!expense.payment_date) return acc; // Ignore invalid dates
+          const date = expense.payment_date.split("T")[0];
+
           const amount = parseFloat(expense.amount);
           if (!isNaN(amount)) {
             acc[date] = (acc[date] || 0) + amount;
