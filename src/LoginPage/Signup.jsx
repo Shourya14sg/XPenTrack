@@ -12,7 +12,6 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
     password: '',
     confirmPassword: ''
   });
@@ -28,8 +27,8 @@ const Signup = () => {
 
   // Form Validation
   const validateForm = () => {
-    const { name, email, phone, password, confirmPassword } = formData;
-    if (!name || !email || !phone || !password || !confirmPassword) {
+    const { name, email,  password, confirmPassword } = formData;
+    if (!name || !email  || !password || !confirmPassword) {
       setError('Please fill out all fields.');
       return false;
     }
