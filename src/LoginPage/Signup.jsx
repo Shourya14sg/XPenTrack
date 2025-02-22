@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, FormControl, FormLabel, TextField, Typography, Alert } from '@mui/material';
+import { Button, Card, FormControl, TextField, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { domain } from '../Constants/Constants';
 
@@ -27,7 +27,7 @@ const Signup = () => {
       setError('Please fill out all fields.');
       return false;
     }
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
+    if (!/\S+@\S+\.\S+/.test(email)) {
       setError('Please enter a valid email address.');
       return false;
     }
@@ -56,7 +56,6 @@ const Signup = () => {
         body: JSON.stringify({
           username: formData.name,
           email: formData.email,
-          // phone: formData.phone,
           password: formData.password,
         })
       });
