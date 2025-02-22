@@ -13,7 +13,7 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
-            if (id.includes("@mui")) return "mui-vendor"; // Separate MUI into its own chunk
+           
             if (id.includes("react")) return "react-vendor"; // Separate React-related code
             if (id.includes("recharts")) return "recharts-vendor"; // Separate Recharts for graphing
             return "vendor"; // General vendor chunk
