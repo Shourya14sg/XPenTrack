@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import CreateGroupModal from "./CreateGroup.jsx";
 import {
     List, ListItem, ListItemIcon, ListItemText, Button, Collapse, Modal,
@@ -12,6 +12,7 @@ import TransactionUserModal from "./UserShares.jsx";
 import { domain, APIauth } from "../Constants/Constants.js";
 import { Delete } from "@mui/icons-material";
 import AddMemberModal from "./AddMember.jsx";
+import DebtModal from "./DebtModal.jsx";
 
 export default function SplitBills() {
     const [groups, setGroups] = useState([]);
@@ -22,6 +23,8 @@ export default function SplitBills() {
     const [openModal, setOpenModal] = useState(false); 
     const [openUserModal, setOpenUserModal] = useState(false); 
     const [refreshTrigger, setRefreshTrigger] = useState(0); 
+    const [openDebtModal, setOpenDebtModal] = useState(false);
+
 
     const [openAddMemberModal, setOpenAddMemberModal] = useState(false);
     const [selectedGroupForAdding, setSelectedGroupForAdding] = useState(null);
@@ -117,6 +120,15 @@ export default function SplitBills() {
         setSelectedGroupForAdding(null);
     };
 
+    const handleOpenDebtModal = (group) => {
+        setSelectedGroupForAdding(group);
+        setOpenDebtModal(true);
+    };
+    
+    const handleCloseDebtModal = () => {
+        setOpenDebtModal(false);
+    };
+    
 
     const handleUserClose = () => {
         setOpenUserModal(false);
@@ -135,7 +147,7 @@ export default function SplitBills() {
                 }
             >
                 {groups?.length > 0 ? (groups.map((group) => (
-                    <React.Fragment key={group.group_id}>
+                    <Fragment key={group.group_id}>
                         <ListItem>
                             <ListItemIcon>
                                 <GroupIcon />
@@ -164,12 +176,17 @@ export default function SplitBills() {
                                 ) : (
                                     <ListItemText sx={{ pl: 4, fontStyle: "italic" }} primary="No members available" />
                                 )}
+                                <ListItem>
                                 <ListItemButton onClick={() => handleOpenAddMemberModal(group)}>
                                     <ListItemText sx={{ color: "#0000FF" }} primary="+Add Member" />
                                 </ListItemButton>
+                                <ListItemButton onClick={() => handleOpenDebtModal(group)}>
+                                    <ListItemText sx={{ color: "#0000FF" }} primary="Simplify Debt" />
+                                </ListItemButton>
+                                </ListItem>
                             </List>
                         </Collapse>
-                    </React.Fragment>
+                    </Fragment>
                 ))) : (
                     <Typography sx={{ textAlign: "center", marginTop: 2 }}>No groups available</Typography>
                 )}
@@ -204,6 +221,7 @@ export default function SplitBills() {
                     selectedGroup={selectedGroupForAdding}
                     refreshGroups={() => setRefreshTrigger(prev => prev + 1)}
                 />
+                <DebtModal open={openDebtModal} handleClose={handleCloseDebtModal} selectedGroup={selectedGroupForAdding} />
             </List>
         </>
     );
