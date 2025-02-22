@@ -1,6 +1,11 @@
-import { Fade, MenuItem, Menu } from "@mui/material";
 import { useState, useEffect } from "react";
-import { Button, Divider, Typography, Box } from "@mui/material";
+import Fade from "@mui/material/Fade";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import Button from "@mui/material/Button";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import { logout } from "../../App";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router-dom";

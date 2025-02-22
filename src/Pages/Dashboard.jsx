@@ -3,7 +3,7 @@ import { AddExpence, Navbar } from '../Components';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import ExpenseTable from './ExpenseTable.jsx';
-import { Box } from '@mui/material';
+import Box from "@mui/material/Box";
 import NotificationTab from '../Components/Notifications/NotificationTab.jsx';
 import axios from 'axios';
 import { domain } from '../Constants/Constants.js';
