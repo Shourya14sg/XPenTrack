@@ -29,6 +29,7 @@ function ExpenseTable({open}) {
       }); 
       const newExpensedata = Array.isArray(response.data)? response.data : []; 
       setRows(newExpensedata); // Set data from JSON file
+      console.log(newExpensedata)
     } catch (error) {
       console.error('Error fetching Expense Data:', error);
       setRows([]); // Set to empty array on error

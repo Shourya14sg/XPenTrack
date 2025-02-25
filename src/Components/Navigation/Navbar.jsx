@@ -9,7 +9,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ProfileMenu from "./ProfileMenu"
 import {Appname} from "../../Constants/Constants"
-const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick, onProfileClick }) => {
+const Navbar = ({ onMenuClick, hasNewNotifications, onBellClick, onProfileClick }) => {
   return (
     <AppBar
       position="fixed"
@@ -26,7 +26,7 @@ const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick, onProfil
         <IconButton
           color="inherit"
           edge="start"
-          onClick={handleDrawerToggle}
+          onClick={onMenuClick}
           sx={{ mr: 2,
             width: "32px", // Matches the icon size
             height: "32px", // Matches the icon size

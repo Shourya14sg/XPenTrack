@@ -34,7 +34,7 @@ export const DebtAnalysis = () => {
         setLoading(false);
     }}
     fetchPendingGroup();
-  },[groups]);
+  },[]);
 
   const handlePay=async (group_name,expenseid)=>{
     try{

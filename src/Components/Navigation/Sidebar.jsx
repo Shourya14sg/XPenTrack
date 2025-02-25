@@ -11,7 +11,7 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import BarChartIcon from "@mui/icons-material/BarChart";
 
 const drawerWidth = 240;
-const Sidebar = () => {
+const Sidebar = ({isMenu}) => {
 
   const drawer = (
     <div>     
@@ -29,11 +29,11 @@ const Sidebar = () => {
   );
 
   return (
-    
-      <Drawer
+    <div className={isMenu?"fixed left-0 top-0 h-full w-[30%]  shadow-md shadow-emerald-200/40  ease-in-out duration-300":'fixed left-[-100%]'}>
+      <Drawer 
         variant="permanent"
         sx={{
-          display: { xs: "none", sm: "block" },
+          display: { xs: "none", sm: "flex " },
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: drawerWidth,
@@ -45,6 +45,7 @@ const Sidebar = () => {
       >
         {drawer}
       </Drawer>
+      </div>
   );
 };
 
