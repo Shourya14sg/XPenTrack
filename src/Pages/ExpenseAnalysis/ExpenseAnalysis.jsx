@@ -20,17 +20,17 @@ const ExpenseAnalysis = () => {
           setLoading(false);
           return;
         }
-
+ 
         const accessToken = userData.access;
         const userID = userData.user.id;
-
+ 
         const response = await axios.get(`${domain}/exp/user-expenses/${userID}`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
-
+ 
         const data = response.data || [];
         setExpenses(data);
-
+ 
         // Process Pie Chart Data (Category-wise total)
         const categoryTotals = data.reduce((acc, expense) => {
           const amount = parseFloat(expense.amount);
@@ -40,8 +40,9 @@ const ExpenseAnalysis = () => {
           return acc;
         }, {});
 
+ 
         setPieData(Object.entries(categoryTotals).map(([category, amount]) => ({ name: category, value: amount })));
-
+ 
         // Process Bar Chart Data (Daily Expenses)
         const dailyTotals = data.reduce((acc, expense) => {
           if (!expense.payment_date) return acc; // Ignore invalid dates
@@ -59,7 +60,7 @@ const ExpenseAnalysis = () => {
 
         // Line Chart uses the same data as Bar Chart
         setLineData(barChartData);
-
+ 
       } catch (error) {
         console.error("Error fetching expenses:", error);
         setError("Failed to load expense data. Please try again.");
@@ -69,9 +70,9 @@ const ExpenseAnalysis = () => {
 
     fetchExpenses();
   }, []);
-
+ 
   const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28EF7"];
-
+ 
   return (
     <div className="p-6 w-full">
       {/* Filters Section */}
@@ -103,7 +104,7 @@ const ExpenseAnalysis = () => {
             </ResponsiveContainer>
           )}
         </div>
-
+ 
         {/* Bar Chart - Daily Expenses */}
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold text-center">Daily Expenses</h2>
@@ -123,7 +124,7 @@ const ExpenseAnalysis = () => {
           )}
         </div>
       </div>
-
+ 
       {/* Line Graph - Expense Trend */}
       <div className="mt-6 bg-white p-4 rounded-lg shadow-md">
         <h2 className="text-lg font-semibold text-center">Expense Trend Over Time</h2>
@@ -145,5 +146,5 @@ const ExpenseAnalysis = () => {
     </div>
   );
 };
-
+ 
 export default ExpenseAnalysis;

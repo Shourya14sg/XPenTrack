@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -14,44 +15,43 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
     useEffect(() => {
         const userData = JSON.parse(sessionStorage.getItem('user_data'));
         if (userData?.access && userData?.refresh) {
-            navigate('/dashboard', { replace: true }); 
+            navigate('/dashboard', { replace: true });
         }
     }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        
+    
         try {
-            const response = await fetch(`${domain}/users/login/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password })
+            const response = await axios.post(`${domain}/users/login/`, {
+                email,
+                password
+            }, {
+                headers: { 'Content-Type': 'application/json' }
             });
-
-            const data = await response.json();
-            
-            if (response.ok) {
-                sessionStorage.setItem('user_data', JSON.stringify(data));
-                navigate('/dashboard', { replace: true });
-              //navigate('/dashboard');
-            } else {
-                setError(data.error || 'Invalid credentials');
-            }
+    
+            sessionStorage.setItem('user_data', JSON.stringify(response.data));
+            navigate('/dashboard', { replace: true });
         } catch (error) {
-            setError('Something went wrong. Please try again later.');
+            // Extract error message correctly
+            if (error.response && error.response.data) {
+                setError(error.response.data.non_field_errors?.[0] || error.response.data.detail);
+            } else {
+                setError("Something went wrong. Please try again.");
+            }
         }
     };
+    
 
     return (
         <div 
             className='min-h-screen w-screen flex justify-center items-center p-4'
-            style={{ backgroundColor:"#615fff" }}
+            style={{ backgroundColor: "#615fff" }}
         >
             <Card className='w-full max-w-sm sm:max-w-md md:max-w-lg px-12 sm:p-20 shadow-2xl flex flex-col items-center gap-4'>
                 <Typography variant='h6' component="div" className="text-center">SplitUp</Typography>
@@ -90,7 +90,7 @@ const Login = () => {
                         type="submit"
                         fullWidth
                         variant="contained"
-                        sx={{ width:"10rem", alignSelf:"center", color: "#615fff", boxShadow:"none", backgroundColor:"white", border:"1px solid #615fff", ":hover":{backgroundColor:"#615fff", color:"white", border:"1px solid transparent"}, marginTop: "0.2rem" }}
+                        sx={{ width: "10rem", alignSelf: "center", color: "#615fff", boxShadow: "none", backgroundColor: "white", border: "1px solid #615fff", ":hover": { backgroundColor: "#615fff", color: "white", border: "1px solid transparent" }, marginTop: "0.2rem" }}
                     >
                         Sign in
                     </Button></div>
@@ -106,6 +106,6 @@ const Login = () => {
             </Card>
         </div>
     );
-}
+};
 
 export default Login;

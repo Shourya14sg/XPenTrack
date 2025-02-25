@@ -20,6 +20,7 @@ import { domain, APIauth } from "../Constants/Constants.js";
 import { Delete } from "@mui/icons-material";
 import AddMemberModal from "./AddMember.jsx";
 import DebtModal from "./DebtModal.jsx";
+import axios from "axios";
 
 export default function SplitBills() {
     const [groups, setGroups] = useState([]);
@@ -39,9 +40,8 @@ export default function SplitBills() {
     const thisuserid = JSON.parse(sessionStorage.getItem("user_data"));
 
     const fetchGroups = () => {
-        fetch(`${domain}/group/groups/user/${thisuserid.user.id}`, APIauth({ req: "GET" }))
-            .then((res) => res.json())
-            .then((data) => setGroups(data))
+        axios.get(`${domain}/group/groups/user/${thisuserid.user.id}`, APIauth())
+            .then((res) => setGroups(res.data))
             .catch((err) => console.error("Error fetching groups:", err));
     };
 
@@ -55,8 +55,8 @@ export default function SplitBills() {
 
     const fetchTransactions = async (group) => {
         try {
-            const res = await fetch(`${domain}/exp/expense/expenses/group-expenses/${group.group_id}`, APIauth({ req: "GET" }));
-            const data = await res.json();
+            const res = await axios.get(`${domain}/exp/expense/expenses/group-expenses/${group.group_id}`, APIauth());
+            const data = await res.data;
             setTransactions((prev) => ({
                 ...prev,
                 [group.group_id]: data.expenses || [],
@@ -86,14 +86,8 @@ export default function SplitBills() {
 
     const handleDeleteUser = async (deleteuserid, groupid) => {
         try {
-            const res = await fetch(`${domain}/group/group-members/${deleteuserid}/`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${thisuserid.access}`,
-                },
-            });
-            if (res.ok) {
+            const res = await axios.delete(`${domain}/group/group-members/${deleteuserid}/`, APIauth());
+            if (res.status===200 || res.status===204) {
                 setGroups(prevGroups => {
                     return prevGroups
                         .map(group => {
@@ -111,7 +105,7 @@ export default function SplitBills() {
                 });
             }
             else {
-                console.error("Failed to delete user:", await res.json());
+                console.error("Failed to delete user:", res.data);
             }
         }
         catch (e) { console.error("Error Deleting User:", e); }

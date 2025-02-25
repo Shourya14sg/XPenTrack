@@ -9,7 +9,9 @@ const LandingContent = () => {
         Track, Analyze & Succeed !!
       </Typography>
       <p className='text-wrap'>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, alias voluptas ipsam quas magnam omnis odio quos consequuntur reprehenderit, deserunt adipisci nesciunt, cum porro repellat repellendus eos minus delectus. Officia porro facilis soluta minima alias eius, dolor, molestiae ullam explicabo corporis repudiandae velit! Exercitationem dolores dolore debitis reiciendis maiores tempore eos, commodi eligendi quod, eaque rem esse, necessitatibus illum perferendis!
+      The SplitUp is a web-based application designed to help users efficiently manage and track their expenses. Users can log their expenses by entering details such as cost, item type, location, and expenditure category. The application provides a tabular view of all expenses with intuitive filters for easy searching and editing.
+
+Additionally, the tracker offers visual insights through graphs and metrics, enabling users to analyze spending patterns. The platform supports expense-sharing, allowing users to split expenses and track shared transactions with others. A built-in debt management feature lets users keep track of money owed and simplifies repayments.
       </p>
       </div>
       <img src='/homepage.png' alt='temp'/>
