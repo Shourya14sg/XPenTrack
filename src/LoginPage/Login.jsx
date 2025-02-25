@@ -1,6 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import { Box, Button, Card, FormControl, TextField, Typography, Alert } from '@mui/material';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 import { Link, useNavigate } from 'react-router-dom';
 import { domain } from '../Constants/Constants';
 
@@ -79,7 +85,7 @@ const Login = () => {
                             variant="outlined"
                         />
                     </FormControl>
-
+                    <div className='flex justify-center pt-2'>
                     <Button
                         type="submit"
                         fullWidth
@@ -87,7 +93,7 @@ const Login = () => {
                         sx={{ width: "10rem", alignSelf: "center", color: "#615fff", boxShadow: "none", backgroundColor: "white", border: "1px solid #615fff", ":hover": { backgroundColor: "#615fff", color: "white", border: "1px solid transparent" }, marginTop: "0.2rem" }}
                     >
                         Sign in
-                    </Button>
+                    </Button></div>
                 </Box>
 
                 <Typography
@@ -95,7 +101,7 @@ const Login = () => {
                     to="/signup"
                     className='text-gray-600 text-sm text-center'
                 >
-                    Don't have an account? <span className='text-black hover:underline'>Sign up</span>
+                    Don't have an account? <span className='font-black hover:underline text-blue-500'>Sign up</span>
                 </Typography>
             </Card>
         </div>

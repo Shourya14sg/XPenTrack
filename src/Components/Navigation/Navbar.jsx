@@ -1,5 +1,9 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, IconButton, Badge } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -26,11 +30,10 @@ const Navbar = ({ handleDrawerToggle, hasNewNotifications, onBellClick, onProfil
           sx={{ mr: 2,
             width: "32px", // Matches the icon size
             height: "32px", // Matches the icon size
-            display: "flex",
             alignItems: "center",
             justifyContent: "center",
             padding: 0, // Removes extra padding
-            display: { sm: "none" } }}
+            display: { xs:"flex", sm: "none" } }}
         >
           <MenuIcon />
         </IconButton>

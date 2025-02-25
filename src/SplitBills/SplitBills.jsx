@@ -1,9 +1,16 @@
 import React, { Fragment, useEffect, useState } from "react";
 import CreateGroupModal from "./CreateGroup.jsx";
-import {
-    List, ListItem, ListItemIcon, ListItemText, Button, Collapse, Modal,
-    Box, Typography, ListSubheader, ListItemButton
-} from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Button from "@mui/material/Button";
+import Collapse from "@mui/material/Collapse";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import ListSubheader from "@mui/material/ListSubheader";
+import ListItemButton from "@mui/material/ListItemButton";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import GroupIcon from "@mui/icons-material/Group";

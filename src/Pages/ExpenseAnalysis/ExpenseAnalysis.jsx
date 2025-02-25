@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, LineChart, Line } from "recharts";
 import { domain } from "../../Constants/Constants";
- 
+
 const ExpenseAnalysis = () => {
   const [loading, setLoading] = useState(true);
   const [expenses, setExpenses] = useState([]);
@@ -10,7 +10,7 @@ const ExpenseAnalysis = () => {
   const [barData, setBarData] = useState([]);
   const [lineData, setLineData] = useState([]);
   const [error, setError] = useState(null);
- 
+
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
@@ -39,6 +39,7 @@ const ExpenseAnalysis = () => {
           }
           return acc;
         }, {});
+
  
         setPieData(Object.entries(categoryTotals).map(([category, amount]) => ({ name: category, value: amount })));
  
@@ -46,17 +47,17 @@ const ExpenseAnalysis = () => {
         const dailyTotals = data.reduce((acc, expense) => {
           if (!expense.payment_date) return acc; // Ignore invalid dates
           const date = expense.payment_date.split("T")[0];
- 
+
           const amount = parseFloat(expense.amount);
           if (!isNaN(amount)) {
             acc[date] = (acc[date] || 0) + amount;
           }
           return acc;
         }, {});
- 
+
         const barChartData = Object.entries(dailyTotals).map(([date, amount]) => ({ date, amount }));
         setBarData(barChartData.sort((a, b) => new Date(a.date) - new Date(b.date)));
- 
+
         // Line Chart uses the same data as Bar Chart
         setLineData(barChartData);
  
@@ -66,7 +67,7 @@ const ExpenseAnalysis = () => {
       }
       setLoading(false);
     };
- 
+
     fetchExpenses();
   }, []);
  
@@ -79,9 +80,9 @@ const ExpenseAnalysis = () => {
         <h2 className="text-lg font-semibold text-center">Analysis Charts</h2>
         {/* Future: Add dropdowns, date pickers, etc. */}
       </div>
- 
+
       {error && <p className="text-red-500 text-center">{error}</p>}
- 
+
       {/* Graph Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Pie Chart - Expense by Category */}

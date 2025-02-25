@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import { domain } from '../Constants/Constants';
 import axios from 'axios';
-import { Button, Modal } from '@mui/material';
+import Button from "@mui/material/Button";
+
 import EditExpenseModal from './EditExpenses.jsx';
 
 

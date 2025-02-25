@@ -1,7 +1,13 @@
 import axios from 'axios';
 import React, { useState,useEffect } from 'react'
 import {domain} from '../../Constants/Constants'
-import {List, ListItem,ListItemText,Button,Paper,Typography } from '@mui/material'
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
+
 
 export const DebtAnalysis = () => {
     const [loading ,setLoading]=useState(true);

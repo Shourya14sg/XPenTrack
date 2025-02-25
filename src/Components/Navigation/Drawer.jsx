@@ -17,8 +17,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import GroupIcon from "@mui/icons-material/Group";
-import ReceiptIcon from "@mui/icons-material/Receipt";
 import { Link } from "react-router-dom";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";

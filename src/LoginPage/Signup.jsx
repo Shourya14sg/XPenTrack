@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Button, Card, FormControl, TextField, Typography, Alert } from '@mui/material';
+import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
+import FormControl from "@mui/material/FormControl";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Alert from "@mui/material/Alert";
 import { Link, useNavigate } from 'react-router-dom';
 import { domain } from '../Constants/Constants';
 
@@ -83,7 +88,7 @@ const Signup = () => {
             <TextField
               id="name"
               type="text"
-              label="Full Name"
+              label="username"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -136,7 +141,7 @@ const Signup = () => {
               slotProps={{ htmlInput: { minLength: 8 } }}
             />
           </FormControl>
-
+          <div className='flex justify-center pt-2'>
           <Button
             type="submit"
             fullWidth
@@ -145,6 +150,7 @@ const Signup = () => {
           >
             Sign Up
           </Button>
+          </div>
         </form>
 
         <Typography
@@ -152,7 +158,7 @@ const Signup = () => {
           to="/login"
           className='text-gray-600 text-sm text-center'
         >
-          Already have an account? <span className='text-black hover:underline'>Login</span>
+          Already have an account? <span className='font-black hover:underline text-blue-500'>Login</span>
         </Typography>
       </Card>
     </div>
