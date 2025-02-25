@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Box, Typography, List, ListItem, ListItemText, CircularProgress } from "@mui/material";
+import axios from "axios";
+import { Modal, Box, Typography, List, ListItem, ListItemText, CircularProgress, Alert } from "@mui/material";
 import { domain, APIauth } from "../Constants/Constants.js";
 
 export default function DebtModal({ open, handleClose, selectedGroup }) {
     const [debts, setDebts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     useEffect(() => {
-        if (open && selectedGroup) {
-            fetch(`${domain}/exp/simplify-debts/${selectedGroup.group_id}/`, APIauth({ req: "GET" }))
-                .then((res) => res.json())
-                .then((data) => {
-                    setDebts(data.simplified_debts || []);
-                    setLoading(false);
-                })
-                .catch((err) => {
+        const fetchDebts = async () => {
+            if (open && selectedGroup) {
+                setLoading(true);
+                setError("");
+                try {
+                    const response = await axios.get(`${domain}/exp/simplify-debts/${selectedGroup.group_id}/`, APIauth());
+                    setDebts(response.data.simplified_debts || []);
+                } catch (err) {
                     console.error("Error fetching simplified debts:", err);
+                    setError(err.response?.data?.message || "Failed to fetch debts. Please try again.");
+                } finally {
                     setLoading(false);
-                });
-        }
+                }
+            }
+        };
+        fetchDebts();
     }, [open, selectedGroup]);
 
     return (
@@ -27,6 +33,8 @@ export default function DebtModal({ open, handleClose, selectedGroup }) {
                 <Typography variant="h6" sx={{ marginBottom: 2 }}>Simplified Debts</Typography>
                 {loading ? (
                     <CircularProgress />
+                ) : error ? (
+                    <Alert severity="error">{error}</Alert>
                 ) : debts.length > 0 ? (
                     <List>
                         {debts.map((debt, index) => (

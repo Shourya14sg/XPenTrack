@@ -4,20 +4,20 @@ export const expenseCategories = ["Food", "Transport", "Entertainment", "Utiliti
 export const Appname="SplitUp"
 
 const thisuserid = JSON.parse(sessionStorage.getItem("user_data"));
-export const APIauth = ({req}) => { return ({
-    method: req,
+export const APIauth = () => { return ({
     headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${thisuserid.access}`,
-    },
+        "Authorization": `Bearer ${thisuserid?.access}`,
+    }
 })}
 
-export const APIauthPost = ({payload}) => {
-    return({
-        headers:{
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${thisuserid.access}`,
-            "body": JSON.stringify(payload)
-        }
-    })
-}
+// export const APIauthParams = ({payload}) => {
+//     return({
+//         params:{payload},
+//         headers:{
+//             "Content-Type": "application/json",
+//             "Authorization": `Bearer ${thisuserid.access}`,
+//             "body": JSON.stringify(payload)
+//         }
+//     })
+// }

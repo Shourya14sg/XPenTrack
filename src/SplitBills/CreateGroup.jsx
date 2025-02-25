@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
     TextField, Button, Box, Typography, List, ListItem,
     ListItemText, IconButton, Modal
@@ -18,29 +19,19 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
     // Fetch user ID from email
     const fetchUserId = async (email) => {
         try {
-            const token = temp.access;
+            const token = temp?.access;
             if (!token) {
                 setError("User not authenticated.");
                 return;
             }
-            const res = await fetch(`${domain}/users/get-user-by-email/?email=${email}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`,
-                },
+            const response = await axios.get(`${domain}/users/get-user-by-email/`, {
+                params: { email },
+                headers: { Authorization: `Bearer ${token}` }
             });
-            if (res.status === 401) {
-                setError("Unauthorized access. Please log in again.");
-                return;
-            }
-            if (!res.ok) {
-                throw new Error("Failed to fetch user");
-            }
-            const data = await res.json();
-            if (data?.user_id) {
+            
+            if (response.data?.user_id) {
                 setUsers((prev) =>
-                    prev.some(user => user.user_id === data.user_id) ? prev : [...prev, data]
+                    prev.some(user => user.user_id === response.data.user_id) ? prev : [...prev, response.data]
                 );
                 setUserEmail("");
                 setError("");
@@ -48,8 +39,7 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
                 setError("User not found.");
             }
         } catch (err) {
-            console.error("Error fetching user:", err);
-            setError("Failed to fetch user.");
+            setError(err.response?.data?.message || "Failed to fetch user.");
         }
     };
 
@@ -70,49 +60,32 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
 
         const payload = {
             name: groupName,
-            created_by: temp.user.id,
+            created_by: temp?.user?.id,
             groupmemberName: users.map(user => ({ userId: user.user_id })),
         };
 
         try {
-            const res = await fetch(`${domain}/group/groups/`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
+            const response = await axios.post(`${domain}/group/groups/`, payload, {
+                headers: { "Content-Type": "application/json" }
             });
 
-            if (res.ok) {
-                const newGroup = await res.json();
-                
-                // Update the groups state directly
-                setGroups((prevGroups) => [...prevGroups, newGroup]);
-                
-                // Notify parent component that a group was created
-                if (onGroupCreated) {
-                    onGroupCreated();
-                }
-                
-                alert("Group created successfully!");
-                resetForm();
-                setOpen(false);
-            } else {
-                const errorData = await res.json().catch(() => ({}));
-                setError(errorData.message || "Failed to create group.");
-            }
+            setGroups((prevGroups) => [...prevGroups, response.data]);
+            if (onGroupCreated) onGroupCreated();
+
+            alert("Group created successfully!");
+            resetForm();
+            setOpen(false);
         } catch (err) {
-            console.error("Error creating group:", err);
-            setError("Something went wrong.");
+            setError(err.response?.data?.message || "Failed to create group.");
         }
     };
 
     return (
         <div style={{ margin: "2rem auto 2rem 5rem" }}>
-            {/* Button to Open Modal */}
             <Button variant="contained" onClick={() => setOpen(true)}>
                 Create New Group
             </Button>
 
-            {/* Modal for Group Creation */}
             <Modal 
                 open={open} 
                 onClose={() => {
@@ -125,8 +98,7 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
                     width: 400, bgcolor: "background.paper", p: 3, borderRadius: 2, boxShadow: 3
                 }}>
                     <Typography variant="h6">Create New Group</Typography>
-
-                    {/* Group Name Input */}
+                    
                     <TextField
                         fullWidth
                         label="Group Name"
@@ -135,8 +107,7 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
                         value={groupName}
                         onChange={(e) => setGroupName(e.target.value)}
                     />
-
-                    {/* User Email Input */}
+                    
                     <TextField
                         fullWidth
                         label="Enter User Email"
@@ -150,10 +121,8 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
                         Add User
                     </Button>
 
-                    {/* Error Message */}
                     {error && <Typography color="error" sx={{ mt: 1 }}>{error}</Typography>}
-
-                    {/* List of Added Users */}
+                    
                     <List sx={{ mt: 2 }}>
                         {users.map((user) => (
                             <ListItem key={user.user_id} secondaryAction={
@@ -165,8 +134,7 @@ export default function CreateGroupModal({ setGroups, onGroupCreated }) {
                             </ListItem>
                         ))}
                     </List>
-
-                    {/* Submit & Close Buttons */}
+                    
                     <Button fullWidth variant="contained" sx={{ mt: 2 }} onClick={handleSubmit}>
                         Create Group
                     </Button>

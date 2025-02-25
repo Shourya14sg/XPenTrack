@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Box, TextField, Button, Typography } from "@mui/material";
+import axios from "axios";
 import { domain, APIauth } from "../Constants/Constants.js";
 
 export default function AddMemberModal({ open, handleClose, selectedGroup, refreshGroups }) {
@@ -8,19 +9,25 @@ export default function AddMemberModal({ open, handleClose, selectedGroup, refre
     const [userName, setUserName] = useState(null);
     const [error, setError] = useState("");
 
+    const thisuserid = JSON.parse(sessionStorage.getItem("user_data"));
     const fetchUserId = async () => {
         try {
-            const res = await fetch(`${domain}/users/get-user-by-email/?email=${email}`, APIauth({ req: "GET" }));
-            const data = await res.json();
-            if (res.ok && data?.user_id) {
-                setUserId(data.user_id);
-                setUserName(data.username)
+            const res = await axios.get(`${domain}/users/get-user-by-email/`, {
+                params: { email },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${thisuserid?.access}`,
+                }
+            });
+            if (res.data?.user_id) {
+                setUserId(res.data.user_id);
+                setUserName(res.data.username);
                 setError("");
             } else {
                 setError("User not found");
             }
         } catch (err) {
-            setError("Error fetching user");
+            setError(err.response?.data?.error || "Error fetching user");
         }
     };
 
@@ -30,24 +37,22 @@ export default function AddMemberModal({ open, handleClose, selectedGroup, refre
             return;
         }
         try {
-            const res = await fetch(`${domain}/group/group-members/`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${JSON.parse(sessionStorage.getItem("user_data")).access}`,
-                },
-                body: JSON.stringify({ group: selectedGroup.group_id, user: userId }),
-            });
-            if (res.ok) {
-                setEmail("");
-                setUserId(null);
-                refreshGroups();
-                handleClose();
-            } else {
-                setError("Failed to add member");
-            }
+            await axios.post(
+                `${domain}/group/group-members/`,
+                { group: selectedGroup.group_id, user: userId },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${JSON.parse(sessionStorage.getItem("user_data")).access}`,
+                    },
+                }
+            );
+            setEmail("");
+            setUserId(null);
+            refreshGroups();
+            handleClose();
         } catch (err) {
-            setError("Error adding user");
+            setError(err.response?.data?.error || "Failed to add member");
         }
     };
 

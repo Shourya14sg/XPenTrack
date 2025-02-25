@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Button, Card, FormControl, TextField, Typography, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { domain } from '../Constants/Constants';
@@ -48,28 +49,20 @@ const Signup = () => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch(`${domain}/users/register/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: formData.name,
-          email: formData.email,
-          password: formData.password,
-        })
+      const response = await axios.post(`${domain}/users/register/`, {
+        username: formData.name,
+        email: formData.email,
+        password: formData.password,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccess('Account created successfully! Redirecting to login...');
-        setTimeout(() => navigate('/login'), 3000);
-      } else {
-        setError(data.error || 'Failed to create an account. Please try again.');
-      }
+      setSuccess('Account created successfully! Redirecting to login...');
+      setTimeout(() => navigate('/login'), 3000);
     } catch (error) {
-      setError('Something went wrong. Please try again later.');
+      if (error.response && error.response.data) {
+        setError(error.response.data.error || 'Failed to create an account. Please try again.');
+      } else {
+        setError('Something went wrong. Please try again later.');
+      }
     }
   };
 
@@ -125,7 +118,7 @@ const Signup = () => {
               required
               fullWidth
               variant="outlined"
-              slotProps={{ htmlInput: { minLength: 12 } }}
+              slotProps={{ htmlInput: { minLength: 8 } }}
             />
           </FormControl>
 
@@ -140,7 +133,7 @@ const Signup = () => {
               required
               fullWidth
               variant="outlined"
-              slotProps={{ htmlInput: { minLength: 12 } }}
+              slotProps={{ htmlInput: { minLength: 8 } }}
             />
           </FormControl>
 
