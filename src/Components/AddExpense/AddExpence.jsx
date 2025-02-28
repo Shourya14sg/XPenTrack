@@ -20,7 +20,7 @@ const dummyexpence={
     amount: 0,
     category: "",
     description: "",
-    date:"",
+    payment_date:"",
     type:"personal",
   };
 export const AddExpence = ({ open, setOpen }) => {
@@ -119,7 +119,20 @@ export const AddExpence = ({ open, setOpen }) => {
               className="col-span-2"
             />
 
-          {/* Add User & Group Buttons */}
+            {/* Date Picker Field */}
+            <TextField
+              label="Date"
+              type="date"
+              fullWidth
+              variant="outlined"
+              name="payment_date"
+              value={expense.date}
+              onChange={handleChange}
+              InputLabelProps={{
+                shrink: true, // Keeps the label visible when a date is selected
+              }}
+            />
+          {/* Add Group Buttons */}
           <div className={(expense.amount<=0 || expense.title=="")?'hidden':"flex items-center gap-2 cursor-pointer "}
                 onClick={()=>setGroupDialogOpen(true)}>
               <AddCircleOutlineIcon  color="primary"  />

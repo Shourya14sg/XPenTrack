@@ -112,7 +112,7 @@ function ResponsiveDrawer(props) {
               alignItems: "center",
               justifyContent: "center",
               padding: 0, // Removes extra padding
-              marginRight:"1rem"
+              marginRight: "1rem",
             }}
             color="inherit"
             onClick={props.onBellClick}

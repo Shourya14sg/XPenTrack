@@ -22,6 +22,7 @@ export const Dashboard = () => {
   const [hasNewNotifications, setHasNewNotifications] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [visitProfile,SetVisitProfile]=useState(false);
+  const [isMenu,setIsMenu]=useState(true)
   
   const User_data=JSON.parse(sessionStorage.getItem("user_data"));
   const userID=User_data? User_data.user.id:null;
@@ -75,14 +76,16 @@ export const Dashboard = () => {
             SetVisitProfile(!visitProfile)
             showNotifications?setShowNotifications(false):""
           }}
+          onMenuClick={()=>{setIsMenu(!isMenu)}}
         />
         
-        <Sidebar />
+        <Sidebar isMenu={isMenu} />
         <Box
           component="main"
           sx={{
             flexGrow: 1,
-            p: 1,
+            py: 1,
+            pr:1,
             mt: "4rem",
             ml: `${drawerWidth}px`,
           }}

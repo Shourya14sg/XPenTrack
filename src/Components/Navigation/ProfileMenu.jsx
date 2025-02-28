@@ -26,7 +26,7 @@ export default function ProfileMenu(props) {
   useEffect(() => {
     const fetchdata = async () => {
       try{
-      const res = await axios.get(`${domain}/users/me/`, {
+      const res = await axios.get(`${domain}/users/user/`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
           "Content-Type": "application/json",
